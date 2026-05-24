@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>공략 가이드</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --border: #2a2a2a;
+    --green: #80c794;
+    --green-dim: #1a2e1f;
+    --green-glow: rgba(128,199,148,0.10);
+    --text: #e8e8e8;
+    --text-dim: #777777;
+    --accent: #f0f0f0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+  }
+
+  /* grid bg */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(128,199,148,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(128,199,148,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-top: 1rem;
+  }
+
+  header .tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--green);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    opacity: 0.8;
+  }
+
+  header h1 {
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  header h1 span {
+    color: var(--green);
+  }
+
+  .nav-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .nav-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 0.75rem 0.5rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    transition: all 0.2s;
+  }
+
+  .nav-btn .icon { font-size: 1.4rem; }
+
+  .nav-btn:hover, .nav-btn.active {
+    background: var(--green-glow);
+    border-color: var(--green);
+    color: var(--green);
+  }
+
+  /* Section cards */
+  .section {
+    display: none;
+    animation: fadeIn 0.25s ease;
+  }
+  .section.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+
+  .card-header {
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+  }
+
+  .card-header:hover { background: var(--surface2); }
+
+  .card-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--accent);
+  }
+
+  .card-title .badge {
+    background: var(--green-dim);
+    color: var(--green);
+    font-size: 0.65rem;
+    font-family: 'Space Mono', monospace;
+    padding: 0.2em 0.5em;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  .card-arrow {
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    transition: transform 0.2s;
+  }
+  .card.open .card-arrow { transform: rotate(180deg); }
+
+  .card-body {
+    display: none;
+    padding: 0 1.25rem 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+  .card.open .card-body { display: block; }
+
+  /* Party comp */
+  .role-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.6rem;
+    margin: 1rem 0;
+  }
+
+  .role-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.7rem 0.9rem;
+  }
+
+  .role-label {
+    font-size: 0.65rem;
+    font-family: 'Space Mono', monospace;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.3rem;
+  }
+
+  .role-names {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  /* Strategy tabs */
+  .strat-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin: 1rem 0 0.75rem;
+  }
+
+  .strat-tab {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 0.4rem 0.9rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+
+  .strat-tab.active {
+    background: var(--green-glow);
+    border-color: var(--green);
+    color: var(--green);
+  }
+
+  .strat-content { display: none; }
+  .strat-content.active { display: block; }
+
+  .party-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0.5rem 0;
+  }
+
+  .party-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--green);
+    min-width: 60px;
+  }
+
+  .char-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  .chip {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 0.2em 0.7em;
+    font-size: 0.8rem;
+    color: var(--text);
+  }
+
+  .chip.key {
+    border-color: var(--green);
+    color: var(--green);
+    background: var(--green-glow);
+  }
+
+  /* Tips */
+  .tip {
+    background: var(--surface2);
+    border-left: 3px solid var(--green);
+    border-radius: 0 8px 8px 0;
+    padding: 0.6rem 0.9rem;
+    margin: 0.5rem 0;
+    font-size: 0.85rem;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .tip b { color: var(--green); }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin: 1rem 0 0.4rem;
+    opacity: 0.8;
+  }
+
+  /* Cost table */
+  .cost-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.83rem;
+    margin: 0.5rem 0;
+  }
+
+  .cost-table th {
+    background: var(--surface2);
+    color: var(--green);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cost-table td {
+    padding: 0.45rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  .cost-table tr:last-child td { border-bottom: none; }
+
+  .cost-table .range { color: var(--green); font-weight: 700; }
+
+  /* XP table */
+  .xp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+  }
+
+  .xp-row {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.4rem 0.6rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+  }
+
+  .xp-lv { color: var(--text-dim); }
+  .xp-val { color: var(--text); font-weight: 600; font-family: 'Space Mono', monospace; font-size: 0.72rem; }
+
+  /* XP group copy */
+  .xp-group {
+    margin-bottom: 1rem;
+    padding-top: 1rem;
+  }
+
+  .xp-group:first-child {
+    padding-top: 1rem;
+  }
+
+  .xp-group-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.4rem;
+  }
+
+  .xp-group-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    opacity: 0.8;
+  }
+
+  .copy-btn {
+    background: var(--green-dim);
+    border: 1px solid var(--border);
+    color: var(--green);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    padding: 0.2em 0.6em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.05em;
+  }
+
+  .copy-btn:hover {
+    background: var(--green);
+    color: var(--surface);
+  }
+
+  .copy-btn.copied {
+    background: var(--green);
+    color: var(--surface);
+  }
+
+  p { line-height: 1.7; font-size: 0.88rem; color: var(--text); }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0.8rem 0;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="tag">// GUIDE v1.0</div>
+    <h1>공략 <span>가이드</span></h1>
+  </header>
+
+  <nav class="nav-grid">
+    <button class="nav-btn active" onclick="showSection('party', this)">
+      <span class="icon">⚔️</span>파티 구성
+    </button>
+    <button class="nav-btn" onclick="showSection('char', this)">
+      <span class="icon">🎮</span>캐릭터 운용
+    </button>
+    <button class="nav-btn" onclick="showSection('growth', this)">
+      <span class="icon">📈</span>육성
+    </button>
+    <button class="nav-btn" onclick="showSection('floor8', this)">
+      <span class="icon">🏰</span>태초 8층
+    </button>
+    <button class="nav-btn" onclick="showSection('xp', this)">
+      <span class="icon">📊</span>헌터 경험치
+    </button>
+  </nav>
+
+  <!-- 파티 구성 -->
+  <div id="section-party" class="section active">
+
+    <div class="card open">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-title"><span>역할</span><span class="badge">ROLES</span></div>
+        <span class="card-arrow">▼</span>
+      </div>
+      <div class="card-body">
+        <div class="role-grid">
+          <div class="role-card"><div class="role-label">서폿</div><div class="role-names">하니엘, 사키리</div></div>
+          <div class="role-card"><div class="role-label">몹몰이</div><div class="role-names">사키리, 구원</div></div>
+          <div class="role-card"><div class="role-label">탱커</div><div class="role-names">파디아, 아들러</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card open">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-title"><span>전략 선택</span><span class="badge">STRATEGY</span></div>
+        <span class="card-arrow">▼</span>
+      </div>
+      <div class="card-body">
+        <div class="strat-tabs">
+          <button class="strat-tab active" onclick="showStrat('s1', this)">전략 1</button>
+          <button class="strat-tab" onclick="showStrat('s2', this)">전략 2</button>
+        </div>
+
+        <div id="strat-s1" class="strat-content active">
+          <p style="color:var(--text-dim); font-size:0.8rem; margin-bottom:0.75rem;">한쪽 방 빠르게 클리어 후 이동</p>
+          <div class="party-row">
+            <span class="party-label">1파티</span>
+            <div class="char-chips">
+              <span class="chip key">호토리</span><span class="chip key">나나리</span><span class="chip">+ @</span>
+            </div>
+          </div>
+          <div class="party-row">
+            <span class="party-label">2파티</span>
+            <div class="char-chips">
+              <span class="chip key">치즈</span><span class="chip">+ @</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="strat-s2" class="strat-content">
+          <p style="color:var(--text-dim); font-size:0.8rem; margin-bottom:0.75rem;">양쪽 방 균등하게 클리어</p>
+          <div class="party-row">
+            <span class="party-label">1파티</span>
+            <div class="char-chips">
+              <span class="chip key">나나리</span><span class="chip">+ @</span>
+            </div>
+          </div>
+          <div class="party-row">
+            <span class="party-label">2파티</span>
+            <div class="char-chips">
+              <span class="chip key">호토리</span><span class="chip key">치즈</span><span class="chip">+ @</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-title"><span>대체 편성</span><span class="badge">FALLBACK</span></div>
+        <span class="card-arrow">▼</span>
+      </div>
+      <div class="card-body">
+        <div class="section-label">나나리 없을 때</div>
+        <div class="party-row">
+          <span class="party-label">1파티</span>
+          <div class="char-chips">
+            <span class="chip key">호토리</span><span class="chip">민트</span><span class="chip">사키리</span><span class="chip">하니엘</span>
+          </div>
+        </div>
+        <div class="party-row">
+          <span class="party-label">2파티</span>
+          <div class="char-chips">
+            <span class="chip key">치즈</span><span class="chip">제로</span><span class="chip">구원</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section-label">호토리 없을 때</div>
+        <div class="party-row">
+          <span class="party-label">1파티</span>
+          <div class="char-chips">
+            <span class="chip key">나나리</span><span class="chip">제로</span><span class="chip">사키리</span><span class="chip">하니엘</span>
+          </div>
+        </div>
+        <div class="party-row">
+          <span class="party-label">2파티</span>
+          <div class="char-chips">
+            <span class="chip key">치즈</span><span class="chip">구원</span>
+          </div>
+        </div>
+        <div style="margin:0.5rem 0; color:var(--text-dim); font-size:0.8rem;">또는</div>
+        <div class="party-row">
+          <span class="party-label">1파티</span>
+          <div class="char-chips">
+            <span class="chip key">나나리</span><span class="chip">제로</span><span class="chip">구원</span><span class="chip">하니엘</span>
+          </div>
+        </div>
+        <div class="party-row">
+          <span class="party-label">2파티</span>
+          <div class="char-chips">
+            <span class="chip key">치즈</span><span class="chip">사키리</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section-label">둘 다 없을 때</div>
+        <div class="party-row">
+          <span class="party-label">1파티</span>
+          <div class="char-chips">
+            <span class="chip">민트</span><span class="chip">제로</span><span class="chip">사키리</span><span class="chip">하니엘</span>
+          </div>
+        </div>
+        <div class="party-row">
+          <span class="party-label">2파티</span>
+          <div class="char-chips">
+            <span class="chip key">치즈</span><span class="chip">구원</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip" style="margin-bottom:1rem;">
+      <b>참고</b><br>
+      · 1파티라고 꼭 전반에 안 넣어도 됨 — 전반/후반 교체 가능<br>
+      · 사키리·하니엘 넣고 깡딜 올리는 게 블라썸보다 셀 수 있음<br>
+      · 구원은 붕어빵 슈퍼아머도 뚫고 몹몰이한다는데 실험 미완료
+    </div>
+  </div>
+
+  <!-- 캐릭터 운용 -->
+  <div id="section-char" class="section">
+
+    <div class="card open">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-title"><span>호토리</span><span class="badge">DPS</span></div>
+        <span class="card-arrow">▼</span>
+      </div>
+      <div class="card-body">
+        <div class="tip">Q만 쓰면 되는 캐릭</div>
+        <div class="tip"><b>전무 있을 때</b> — 처음에 E 한 번 쓰고 전무 버프 받고, 이후엔 Q만</div>
+        <div class="tip"><b>점프공격</b> — Q 스킬 도중 점프공격은 10타에 안 들어감 → 2~3회 점프공격 추가해 주면 좋음</div>
+      </div>
+    </div>
+
+    <div class="card open">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-title"><span>치즈</span><span class="badge">DPS</span></div>
+        <span class="card-arrow">▼</span>
+      </div>
+      <div class="card-body">
+        <div class="tip">치피·피증만 챙기면 되는 캐릭</div>
+        <div class="tip"><b>체력바 위 숫자</b> = E 딜 얼마나 올려줄지 지표</div>
+        <div class="tip"><b>E 쿨 동안</b> 평타 대신 딜 보조 캐릭 넣는 게 효율적 (예: 민트)</div>
+
+        <div class="divider"></div>
+
+        <div class="strat-tabs">
+          <button class="strat-tab active" onclick="showStrat('cheese1', this)">다른 딜러 있을 때</button>
+          <button class="strat-tab" onclick="showStrat('cheese2', this)">솔딜일 때</button>
+        </div>
+
+        <div id="strat-cheese1" class="strat-content active">
+          <div class="tip">E 짧게 누르기 반복<br>Q 쓴 이후엔 음봉 아닐 때 E 누르기</div>
+        </div>
+
+        <div id="strat-cheese2" class="strat-content">
+          <div class="tip">
+            E 짧게 누르기 반복<br>
+            Q 쓴 이후엔 음봉 아닐 때 E 누르기<br>
+            적 그로기 상태일 때 <b>곡식량 70~80%</b> 될 때까지만 E 꾹<br>
+            <span style="color:var(--text-dim); font-size:0.8rem;">(E꾹 발동 조건: 치즈 E 2개 이상)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 육성 -->
+  <div id="section-growth" class="section">
+
+    <div class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-title"><span>레벨</span><span class="badge">LEVEL</span></div>
+        <span class="card-arrow">▼</span>
+      </div>
+      <div class="card-body">
+        <div class="tip">레벨·아크레벨 상승 → 기초공격력 상승</div>
+        <div class="tip"><b>공격력%</b> = 기초공격력 × 공% 구조라서 레벨 올릴수록 체감 큼</div>
+        <div class="tip">캐릭 10렙마다 레벨 보정으로 크게 강해짐</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-title"><span>스킬 강화</span><span class="badge">SKILL</span></div>
+        <span class="card-arrow">▼</span>
+      </div>
+      <div class="card-body">
+        <div class="tip">평타는 메인딜러·필요 캐릭 아니면 강화 ✗</div>
+        <div class="tip">E, Q는 앵간해선 풀업 권장</div>
+        <div class="tip"><b>호토리</b> — 궁 사용 중 평타는 궁 올리면 자동 상승 → 평타 강화 불필요</div>
+        <div class="tip"><b>치즈</b> — 패시브만 찍고, E·Q·평타 다 안 올려도 됨<br><span style="color:var(--text-dim); font-size:0.8rem;">핵심 메커니즘이 곡식 고정뎀인데 스킬레벨 올라가도 곡식딜이 안 올라감</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-title"><span>콘솔 (카트리지·테트리스)</span><span class="badge">CONSOLE</span></div>
+        <span class="card-arrow">▼</span>
+      </div>
+      <div class="card-body">
+        <div class="tip">허접해 보여도 강화 ㄱㅊ, 분해 시 대부분 돌려받음</div>
+        <div class="tip"><b>카트리지</b> 주옵션 20강 (파랑색도 ㄱㅊ) / <b>테트리스</b> 전부 20강</div>
+        <div class="tip"><b>장착법</b> — 필터 → 원하는 옵션 필터링 (최소 2개 이상) → 수동 장착</div>
+      </div>
+    </div>
+
+    <div class="card open">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-title"><span>육성 비용</span><span class="badge">COST</span></div>
+        <span class="card-arrow">▼</span>
+      </div>
+      <div class="card-body">
+        <div class="section-label">캐릭터</div>
+        <table class="cost-table">
+          <thead><tr><th>구간</th><th>비틀코인</th><th>경험치책</th></tr></thead>
+          <tbody>
+            <tr><td class="range">50→60</td><td>345,500</td><td>48권</td></tr>
+            <tr><td class="range">60→70</td><td>530,000</td><td>81권</td></tr>
+            <tr><td class="range">70→80</td><td>806,250</td><td>131권</td></tr>
+          </tbody>
+        </table>
+
+        <div class="section-label" style="margin-top:1rem;">아크</div>
+        <table class="cost-table">
+          <thead><tr><th>구간</th><th>비틀코인</th><th>경험치 물감</th></tr></thead>
+          <tbody>
+            <tr><td class="range">50→60</td><td>251,000</td><td>57개</td></tr>
+            <tr><td class="range">60→70</td><td>373,000</td><td>91개</td></tr>
+            <tr><td class="range">70→80</td><td>567,000</td><td>149개</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 태초 8층 -->
+  <div id="section-floor8" class="section">
+    <div class="card open">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-title"><span>전반</span><span class="badge">PHASE 1</span></div>
+        <span class="card-arrow">▼</span>
+      </div>
+      <div class="card-body">
+        <div class="tip">붕어빵 최대한 몰아놓고 딜</div>
+        <div class="tip">회오리 때 회피반격</div>
+      </div>
+    </div>
+
+    <div class="card open">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-title"><span>후반</span><span class="badge">PHASE 2</span></div>
+        <span class="card-arrow">▼</span>
+      </div>
+      <div class="card-body">
+        <div class="tip"><b>갸루보스만 집중 공격</b> → 쫄몹은 알아서 사망</div>
+        <div class="tip"><b>갸루보스 HP 140만</b> → 모든 적 체력 10% 감소 옵션 유효</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 헌터 경험치 -->
+  <div id="section-xp" class="section">
+    <div class="card open">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-title"><span>헌터 레벨별 경험치통</span><span class="badge">XP TABLE</span></div>
+        <span class="card-arrow">▼</span>
+      </div>
+      <div class="card-body">
+
+        <div class="xp-group" id="xpg-1">
+          <div class="xp-group-header">
+            <span class="xp-group-label">1~9렙</span>
+            <button class="copy-btn" onclick="copyXpGroup('xpg-1', this)">복사</button>
+          </div>
+          <div class="xp-grid">
+            <div class="xp-row"><span class="xp-lv">1렙</span><span class="xp-val">100</span></div>
+            <div class="xp-row"><span class="xp-lv">2렙</span><span class="xp-val">200</span></div>
+            <div class="xp-row"><span class="xp-lv">3렙</span><span class="xp-val">450</span></div>
+            <div class="xp-row"><span class="xp-lv">4렙</span><span class="xp-val">600</span></div>
+            <div class="xp-row"><span class="xp-lv">5렙</span><span class="xp-val">700</span></div>
+            <div class="xp-row"><span class="xp-lv">6렙</span><span class="xp-val">1,150</span></div>
+            <div class="xp-row"><span class="xp-lv">7렙</span><span class="xp-val">1,350</span></div>
+            <div class="xp-row"><span class="xp-lv">8렙</span><span class="xp-val">1,450</span></div>
+            <div class="xp-row"><span class="xp-lv">9렙</span><span class="xp-val">1,700</span></div>
+          </div>
+        </div>
+
+        <div class="xp-group" id="xpg-10">
+          <div class="xp-group-header">
+            <span class="xp-group-label">10~19렙</span>
+            <button class="copy-btn" onclick="copyXpGroup('xpg-10', this)">복사</button>
+          </div>
+          <div class="xp-grid">
+            <div class="xp-row"><span class="xp-lv">10렙</span><span class="xp-val">1,780</span></div>
+            <div class="xp-row"><span class="xp-lv">11렙</span><span class="xp-val">1,860</span></div>
+            <div class="xp-row"><span class="xp-lv">12렙</span><span class="xp-val">1,940</span></div>
+            <div class="xp-row"><span class="xp-lv">13렙</span><span class="xp-val">2,020</span></div>
+            <div class="xp-row"><span class="xp-lv">14렙</span><span class="xp-val">2,110</span></div>
+            <div class="xp-row"><span class="xp-lv">15렙</span><span class="xp-val">2,200</span></div>
+            <div class="xp-row"><span class="xp-lv">16렙</span><span class="xp-val">2,290</span></div>
+            <div class="xp-row"><span class="xp-lv">17렙</span><span class="xp-val">2,380</span></div>
+            <div class="xp-row"><span class="xp-lv">18렙</span><span class="xp-val">2,470</span></div>
+            <div class="xp-row"><span class="xp-lv">19렙</span><span class="xp-val">2,560</span></div>
+          </div>
+        </div>
+
+        <div class="xp-group" id="xpg-20">
+          <div class="xp-group-header">
+            <span class="xp-group-label">20~29렙</span>
+            <button class="copy-btn" onclick="copyXpGroup('xpg-20', this)">복사</button>
+          </div>
+          <div class="xp-grid">
+            <div class="xp-row"><span class="xp-lv">20렙</span><span class="xp-val">3,300</span></div>
+            <div class="xp-row"><span class="xp-lv">21렙</span><span class="xp-val">3,380</span></div>
+            <div class="xp-row"><span class="xp-lv">22렙</span><span class="xp-val">3,460</span></div>
+            <div class="xp-row"><span class="xp-lv">23렙</span><span class="xp-val">3,540</span></div>
+            <div class="xp-row"><span class="xp-lv">24렙</span><span class="xp-val">3,620</span></div>
+            <div class="xp-row"><span class="xp-lv">25렙</span><span class="xp-val">3,680</span></div>
+            <div class="xp-row"><span class="xp-lv">26렙</span><span class="xp-val">3,740</span></div>
+            <div class="xp-row"><span class="xp-lv">27렙</span><span class="xp-val">3,800</span></div>
+            <div class="xp-row"><span class="xp-lv">28렙</span><span class="xp-val">3,860</span></div>
+            <div class="xp-row"><span class="xp-lv">29렙</span><span class="xp-val">3,920</span></div>
+          </div>
+        </div>
+
+        <div class="xp-group" id="xpg-30">
+          <div class="xp-group-header">
+            <span class="xp-group-label">30~39렙</span>
+            <button class="copy-btn" onclick="copyXpGroup('xpg-30', this)">복사</button>
+          </div>
+          <div class="xp-grid">
+            <div class="xp-row"><span class="xp-lv">30렙</span><span class="xp-val">4,000</span></div>
+            <div class="xp-row"><span class="xp-lv">31렙</span><span class="xp-val">4,050</span></div>
+            <div class="xp-row"><span class="xp-lv">32렙</span><span class="xp-val">4,100</span></div>
+            <div class="xp-row"><span class="xp-lv">33렙</span><span class="xp-val">4,150</span></div>
+            <div class="xp-row"><span class="xp-lv">34렙</span><span class="xp-val">4,200</span></div>
+            <div class="xp-row"><span class="xp-lv">35렙</span><span class="xp-val">4,260</span></div>
+            <div class="xp-row"><span class="xp-lv">36렙</span><span class="xp-val">4,320</span></div>
+            <div class="xp-row"><span class="xp-lv">37렙</span><span class="xp-val">4,380</span></div>
+            <div class="xp-row"><span class="xp-lv">38렙</span><span class="xp-val">4,440</span></div>
+            <div class="xp-row"><span class="xp-lv">39렙</span><span class="xp-val">4,500</span></div>
+          </div>
+        </div>
+
+        <div class="xp-group" id="xpg-40">
+          <div class="xp-group-header">
+            <span class="xp-group-label">40~49렙</span>
+            <button class="copy-btn" onclick="copyXpGroup('xpg-40', this)">복사</button>
+          </div>
+          <div class="xp-grid">
+            <div class="xp-row"><span class="xp-lv">40렙</span><span class="xp-val">8,800</span></div>
+            <div class="xp-row"><span class="xp-lv">41렙</span><span class="xp-val">9,800</span></div>
+            <div class="xp-row"><span class="xp-lv">42렙</span><span class="xp-val">10,880</span></div>
+            <div class="xp-row"><span class="xp-lv">43렙</span><span class="xp-val">12,050</span></div>
+            <div class="xp-row"><span class="xp-lv">44렙</span><span class="xp-val">13,310</span></div>
+            <div class="xp-row"><span class="xp-lv">45렙</span><span class="xp-val">14,670</span></div>
+            <div class="xp-row"><span class="xp-lv">46렙</span><span class="xp-val">16,140</span></div>
+            <div class="xp-row"><span class="xp-lv">47렙</span><span class="xp-val">17,730</span></div>
+            <div class="xp-row"><span class="xp-lv">48렙</span><span class="xp-val">19,450</span></div>
+            <div class="xp-row"><span class="xp-lv">49렙</span><span class="xp-val">21,310</span></div>
+          </div>
+        </div>
+
+        <div class="xp-group" id="xpg-50">
+          <div class="xp-group-header">
+            <span class="xp-group-label">50~59렙</span>
+            <button class="copy-btn" onclick="copyXpGroup('xpg-50', this)">복사</button>
+          </div>
+          <div class="xp-grid">
+            <div class="xp-row"><span class="xp-lv">50렙</span><span class="xp-val">30,000</span></div>
+            <div class="xp-row"><span class="xp-lv">51렙</span><span class="xp-val">34,000</span></div>
+            <div class="xp-row"><span class="xp-lv">52렙</span><span class="xp-val">38,400</span></div>
+            <div class="xp-row"><span class="xp-lv">53렙</span><span class="xp-val">43,240</span></div>
+            <div class="xp-row"><span class="xp-lv">54렙</span><span class="xp-val">48,560</span></div>
+            <div class="xp-row"><span class="xp-lv">55렙</span><span class="xp-val">54,420</span></div>
+            <div class="xp-row"><span class="xp-lv">56렙</span><span class="xp-val">60,860</span></div>
+            <div class="xp-row"><span class="xp-lv">57렙</span><span class="xp-val">67,940</span></div>
+            <div class="xp-row"><span class="xp-lv">58렙</span><span class="xp-val">75,740</span></div>
+            <div class="xp-row"><span class="xp-lv">59렙</span><span class="xp-val">84,310</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function copyXpGroup(groupId, btn) {
+    const group = document.getElementById(groupId);
+    const rows = group.querySelectorAll('.xp-row');
+    const lines = Array.from(rows).map(row => {
+      const lv = row.querySelector('.xp-lv').textContent.trim();
+      const val = row.querySelector('.xp-val').textContent.trim();
+      return `${lv}\t${val}`;
+    });
+    navigator.clipboard.writeText(lines.join('\n')).then(() => {
+      btn.textContent = '완료 ✓';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 1500);
+    });
+  }
+
+  function showSection(id, btn) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('section-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  function toggleCard(header) {
+    header.parentElement.classList.toggle('open');
+  }
+
+  function showStrat(id, btn) {
+    const parent = btn.closest('.card-body');
+    parent.querySelectorAll('.strat-content').forEach(c => c.classList.remove('active'));
+    parent.querySelectorAll('.strat-tab').forEach(b => b.classList.remove('active'));
+    document.getElementById('strat-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+</script>
+</body>
+</html>
