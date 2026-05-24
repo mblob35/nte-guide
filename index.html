@@ -391,6 +391,68 @@
     color: var(--surface);
   }
 
+  /* 사이클 */
+  .cycle-block {
+    margin: 0.5rem 0;
+  }
+
+  .cycle-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    margin: 0.45rem 0;
+  }
+
+  .cycle-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    padding: 0.2em 0.5em;
+    border-radius: 4px;
+    white-space: nowrap;
+    margin-top: 0.15rem;
+    letter-spacing: 0.05em;
+  }
+
+  .cycle-tag.init {
+    background: var(--green-dim);
+    color: var(--green);
+    border: 1px solid var(--green);
+  }
+
+  .cycle-tag.loop {
+    background: var(--surface2);
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+  }
+
+  .cycle-steps {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.82rem;
+  }
+
+  .cycle-step {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.2em 0.55em;
+    color: var(--text);
+    white-space: nowrap;
+  }
+
+  .cycle-step b {
+    color: var(--green);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+  }
+
+  .cycle-arrow {
+    color: var(--text-dim);
+    font-size: 0.75rem;
+  }
+
   p { line-height: 1.7; font-size: 0.88rem; color: var(--text); }
 
   .divider {
@@ -624,6 +686,117 @@
 
     <div class="card">
       <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-title"><span>추천 파티 &amp; 사이클</span><span class="badge">RECOMMENDED</span></div>
+        <span class="card-arrow">▼</span>
+      </div>
+      <div class="card-body">
+
+        <div class="section-label" style="margin-top:0.25rem;">추천 파티</div>
+        <div class="party-row">
+          <span class="party-label">1파티</span>
+          <div class="char-chips">
+            <span class="chip key">나나리</span><span class="chip">제로</span><span class="chip">사키리</span><span class="chip">하니엘</span>
+          </div>
+        </div>        <div class="party-row">
+          <span class="party-label">2파티</span>
+          <div class="char-chips">
+            <span class="chip key">호토리</span><span class="chip key">치즈</span><span class="chip">구원</span><span class="chip">+ 아무캐릭</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section-label">1파티 사이클</div>
+        <div class="cycle-block">
+          <div class="cycle-row">
+            <span class="cycle-tag init">시작</span>
+            <div class="cycle-steps">
+              <span class="cycle-step">하니엘 <b>EQ</b></span>
+              <span class="cycle-arrow">→</span>
+              <span class="cycle-step">사키리 <b>EQ</b></span>
+              <span class="cycle-arrow">→</span>
+              <span class="cycle-step">제로 <b>QE</b></span>
+              <span class="cycle-arrow">→</span>
+              <span class="cycle-step">나나리 <b>EQ</b> 후 E끝날 때까지 평타</span>
+            </div>
+          </div>
+          <div class="cycle-row">
+            <span class="cycle-tag loop">반복</span>
+            <div class="cycle-steps">
+              <span class="cycle-step">하니엘 <b>E</b></span>
+              <span class="cycle-arrow">→</span>
+              <span class="cycle-step">사키리 <b>E</b></span>
+              <span class="cycle-arrow">→</span>
+              <span class="cycle-step">제로 <b>E</b></span>
+              <span class="cycle-arrow">→</span>
+              <span class="cycle-step">나나리 딜</span>
+            </div>
+          </div>
+          <div class="tip" style="margin-top:0.6rem;">중간중간 사키리 헥스 받아먹기</div>
+          <div class="tip" style="margin-top:0.4rem;">하니엘·사키리·제로 쿨타임이 같음</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section-label">2파티 사이클 (호토리 전무 있음)</div>
+        <div class="cycle-block">
+          <div class="cycle-row">
+            <span class="cycle-tag init">시작</span>
+            <div class="cycle-steps">
+              <span class="cycle-step">호토리 <b>E</b></span>
+              <span class="cycle-arrow">→</span>
+              <span class="cycle-step">아무캐릭 <b>QE</b></span>
+              <span class="cycle-arrow">→</span>
+              <span class="cycle-step">구원 <b>QE</b></span>
+              <span class="cycle-arrow">→</span>
+              <span class="cycle-step">치즈 <b>EQE E…</b></span>
+            </div>
+          </div>
+          <div class="cycle-row">
+            <span class="cycle-tag loop">반복</span>
+            <div class="cycle-steps">
+              <span class="cycle-step">호토리 <b>Q</b></span>
+              <span class="cycle-arrow">→</span>
+              <span class="cycle-step">치즈로 딜</span>
+              <span class="cycle-arrow">+</span>
+              <span class="cycle-step" style="color:var(--text-dim);">가끔씩 아무캐릭 <b>QE</b>, 구원 <b>QE</b></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section-label">2파티 사이클 (호토리 전무 없음)</div>
+        <div class="cycle-block">
+          <div class="cycle-row">
+            <span class="cycle-tag init">시작</span>
+            <div class="cycle-steps">
+              <span class="cycle-step">아무캐릭 <b>QE</b></span>
+              <span class="cycle-arrow">→</span>
+              <span class="cycle-step">구원 <b>QE</b></span>
+              <span class="cycle-arrow">→</span>
+              <span class="cycle-step">호토리 <b>Q</b></span>
+              <span class="cycle-arrow">→</span>
+              <span class="cycle-step">치즈 <b>QE E E…</b></span>
+            </div>
+          </div>
+          <div class="cycle-row">
+            <span class="cycle-tag loop">반복</span>
+            <div class="cycle-steps">
+              <span class="cycle-step">호토리 <b>Q</b></span>
+              <span class="cycle-arrow">→</span>
+              <span class="cycle-step">치즈로 딜</span>
+              <span class="cycle-arrow">+</span>
+              <span class="cycle-step" style="color:var(--text-dim);">가끔씩 아무캐릭 <b>QE</b>, 구원 <b>QE</b></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggleCard(this)">
         <div class="card-title"><span>대체 편성</span><span class="badge">FALLBACK</span></div>
         <span class="card-arrow">▼</span>
       </div>
@@ -632,7 +805,7 @@
         <div class="party-row">
           <span class="party-label">1파티</span>
           <div class="char-chips">
-            <span class="chip key">호토리</span><span class="chip">민트</span><span class="chip">사키리</span><span class="chip">하니엘</span>
+            <span class="chip key">호토리</span><span class="chip key">민트</span><span class="chip">사키리</span><span class="chip">하니엘</span>
           </div>
         </div>
         <div class="party-row">
@@ -677,7 +850,7 @@
         <div class="party-row">
           <span class="party-label">1파티</span>
           <div class="char-chips">
-            <span class="chip">민트</span><span class="chip">제로</span><span class="chip">사키리</span><span class="chip">하니엘</span>
+            <span class="chip key">민트</span><span class="chip">제로</span><span class="chip">사키리</span><span class="chip">하니엘</span>
           </div>
         </div>
         <div class="party-row">
