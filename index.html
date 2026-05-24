@@ -398,6 +398,141 @@
     background: var(--border);
     margin: 0.8rem 0;
   }
+
+  /* 계산기 */
+  .calc-wrap { padding-top: 0.25rem; }
+
+  .calc-row {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+
+  .calc-field { flex: 1; min-width: 140px; }
+
+  .select-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .select-row select {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 0.85rem;
+    padding: 0.35rem 0.6rem;
+    border-radius: 6px;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.15s;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2380c794'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.55rem center;
+    padding-right: 1.6rem;
+  }
+
+  .select-row select:focus { border-color: var(--green); }
+
+  .select-arrow-label {
+    color: var(--green);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+  }
+
+  .count-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .count-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    width: 2rem;
+    height: 2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+    transition: all 0.15s;
+  }
+
+  .count-btn:hover { border-color: var(--green); color: var(--green); }
+
+  #charcount {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.95rem;
+    width: 3.5rem;
+    height: 2rem;
+    border-radius: 6px;
+    text-align: center;
+    outline: none;
+  }
+
+  #charcount:focus { border-color: var(--green); }
+
+  .calc-result {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+  }
+
+  .result-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.3rem 0;
+  }
+
+  .result-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding-top: 0.1rem;
+    min-width: 40px;
+  }
+
+  .result-vals {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.2rem;
+    justify-content: flex-end;
+  }
+
+  .result-item {
+    font-size: 0.83rem;
+    color: var(--text-dim);
+  }
+
+  .result-item b {
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+  }
+
+  .result-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0.3rem 0;
+  }
+
+  .result-total .result-item b {
+    color: var(--green);
+    font-size: 0.95rem;
+  }
 </style>
 </head>
 <body>
@@ -677,6 +812,72 @@
         </table>
       </div>
     </div>
+
+    <div class="card open">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-title"><span>육성 비용 계산기</span><span class="badge">CALC</span></div>
+        <span class="card-arrow">▼</span>
+      </div>
+      <div class="card-body">
+        <div class="calc-wrap">
+
+          <div class="calc-row">
+            <div class="calc-field">
+              <div class="section-label" style="margin:0.75rem 0 0.4rem;">구간</div>
+              <div class="select-row">
+                <select id="lvFrom" onchange="calcCost()">
+                  <option value="50" selected>50렙</option>
+                  <option value="60">60렙</option>
+                  <option value="70">70렙</option>
+                </select>
+                <span class="select-arrow-label">→</span>
+                <select id="lvTo" onchange="calcCost()">
+                  <option value="60" selected>60렙</option>
+                  <option value="70">70렙</option>
+                  <option value="80">80렙</option>
+                </select>
+              </div>
+              <div id="range-warn" style="color:#f87171;font-size:0.75rem;margin-top:0.4rem;display:none;">시작 렙이 끝 렙보다 낮아야 해요</div>
+            </div>
+
+            <div class="calc-field">
+              <div class="section-label" style="margin:0.75rem 0 0.4rem;">캐릭터 수</div>
+              <div class="count-input-wrap">
+                <button class="count-btn" onclick="adjustCount(-1)">−</button>
+                <input id="charcount" type="number" min="1" max="99" value="1" oninput="calcCost()">
+                <button class="count-btn" onclick="adjustCount(1)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="calc-result" id="calcresult">
+            <div class="result-row">
+              <span class="result-label">캐릭터</span>
+              <div class="result-vals">
+                <span class="result-item">비틀코인 <b id="res-char-coin">—</b></span>
+                <span class="result-item">경험치책 <b id="res-char-book">—</b></span>
+              </div>
+            </div>
+            <div class="result-divider"></div>
+            <div class="result-row">
+              <span class="result-label">아크</span>
+              <div class="result-vals">
+                <span class="result-item">비틀코인 <b id="res-arc-coin">—</b></span>
+                <span class="result-item">경험치 물감 <b id="res-arc-mat">—</b></span>
+              </div>
+            </div>
+            <div class="result-divider"></div>
+            <div class="result-row result-total">
+              <span class="result-label">합계</span>
+              <div class="result-vals">
+                <span class="result-item">비틀코인 <b id="res-total-coin">—</b></span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- 태초 8층 -->
@@ -828,11 +1029,149 @@
 
       </div>
     </div>
+
+    <div class="card open">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-title"><span>목표 달성 계산기</span><span class="badge">CALC</span></div>
+        <span class="card-arrow">▼</span>
+      </div>
+      <div class="card-body">
+        <div class="calc-wrap">
+          <div class="calc-row" style="flex-wrap:wrap; gap:0.75rem 1.5rem;">
+
+            <div class="calc-field">
+              <div class="section-label" style="margin:0.75rem 0 0.4rem;">현재 레벨</div>
+              <input id="xpCurLv" type="number" min="1" max="59" value="1" oninput="calcXp()" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);font-family:'Space Mono',monospace;font-size:0.85rem;width:80px;height:2rem;border-radius:6px;padding:0 0.6rem;outline:none;">
+            </div>
+
+            <div class="calc-field">
+              <div class="section-label" style="margin:0.75rem 0 0.4rem;">현재 경험치</div>
+              <input id="xpCurXp" type="number" min="0" value="0" oninput="calcXp()" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);font-family:'Space Mono',monospace;font-size:0.85rem;width:120px;height:2rem;border-radius:6px;padding:0 0.6rem;outline:none;">
+            </div>
+
+            <div class="calc-field">
+              <div class="section-label" style="margin:0.75rem 0 0.4rem;">목표 레벨</div>
+              <input id="xpGoalLv" type="number" min="2" max="60" value="60" oninput="calcXp()" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);font-family:'Space Mono',monospace;font-size:0.85rem;width:80px;height:2rem;border-radius:6px;padding:0 0.6rem;outline:none;">
+            </div>
+
+            <div class="calc-field">
+              <div class="section-label" style="margin:0.75rem 0 0.4rem;">하루 경험치</div>
+              <input id="xpPerDay" type="number" min="1" value="" placeholder="입력" oninput="calcXp()" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);font-family:'Space Mono',monospace;font-size:0.85rem;width:120px;height:2rem;border-radius:6px;padding:0 0.6rem;outline:none;">
+            </div>
+
+          </div>
+
+          <div class="calc-result" id="xpcalcresult">
+            <div class="result-row">
+              <span class="result-label">필요 경험치</span>
+              <div class="result-vals">
+                <span class="result-item"><b id="xp-need">—</b></span>
+              </div>
+            </div>
+            <div class="result-divider"></div>
+            <div class="result-row result-total">
+              <span class="result-label">소요 일수</span>
+              <div class="result-vals">
+                <span class="result-item"><b id="xp-days">하루 경험치를 입력해 주세요</b></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-</div>
-
 <script>
+  function adjustCount(delta) {
+    const input = document.getElementById('charcount');
+    const val = Math.max(1, Math.min(99, (parseInt(input.value) || 1) + delta));
+    input.value = val;
+    calcCost();
+  }
+
+  // 구간별 단위 비용 데이터
+  const COST = {
+    char: { 50: {coin:345500, book:48}, 60: {coin:530000, book:81}, 70: {coin:806250, book:131} },
+    arc:  { 50: {coin:251000, mat:57},  60: {coin:373000, mat:91},  70: {coin:567000, mat:149} }
+  };
+
+  function calcCost() {
+    const from = parseInt(document.getElementById('lvFrom').value);
+    const to   = parseInt(document.getElementById('lvTo').value);
+    const warn = document.getElementById('range-warn');
+    const count = Math.max(1, parseInt(document.getElementById('charcount').value) || 1);
+
+    if (from >= to) {
+      warn.style.display = 'block';
+      ['res-char-coin','res-char-book','res-arc-coin','res-arc-mat','res-total-coin']
+        .forEach(id => document.getElementById(id).textContent = '—');
+      return;
+    }
+    warn.style.display = 'none';
+
+    let charCoin = 0, charBook = 0, arcCoin = 0, arcMat = 0;
+    for (let lv = from; lv < to; lv += 10) {
+      charCoin += COST.char[lv].coin;
+      charBook += COST.char[lv].book;
+      arcCoin  += COST.arc[lv].coin;
+      arcMat   += COST.arc[lv].mat;
+    }
+    charCoin *= count; charBook *= count; arcCoin *= count; arcMat *= count;
+    const total = charCoin + arcCoin;
+
+    const fmt = n => n.toLocaleString('ko-KR');
+    document.getElementById('res-char-coin').textContent = fmt(charCoin);
+    document.getElementById('res-char-book').textContent = fmt(charBook) + '권';
+    document.getElementById('res-arc-coin').textContent  = fmt(arcCoin);
+    document.getElementById('res-arc-mat').textContent   = fmt(arcMat) + '개';
+    document.getElementById('res-total-coin').textContent = fmt(total);
+  }
+
+  // 페이지 로드 시 초기 계산
+  calcCost();
+
+  // 헌터 레벨별 경험치통 (해당 레벨 → 다음 레벨까지 필요량)
+  const XP_TABLE = {
+    1:100,2:200,3:450,4:600,5:700,6:1150,7:1350,8:1450,9:1700,
+    10:1780,11:1860,12:1940,13:2020,14:2110,15:2200,16:2290,17:2380,18:2470,19:2560,
+    20:3300,21:3380,22:3460,23:3540,24:3620,25:3680,26:3740,27:3800,28:3860,29:3920,
+    30:4000,31:4050,32:4100,33:4150,34:4200,35:4260,36:4320,37:4380,38:4440,39:4500,
+    40:8800,41:9800,42:10880,43:12050,44:13310,45:14670,46:16140,47:17730,48:19450,49:21310,
+    50:30000,51:34000,52:38400,53:43240,54:48560,55:54420,56:60860,57:67940,58:75740,59:84310
+  };
+
+  function calcXp() {
+    const curLv  = parseInt(document.getElementById('xpCurLv').value);
+    const curXp  = Math.max(0, parseInt(document.getElementById('xpCurXp').value) || 0);
+    const goalLv = parseInt(document.getElementById('xpGoalLv').value);
+    const perDay = parseInt(document.getElementById('xpPerDay').value) || 0;
+    const fmt = n => n.toLocaleString('ko-KR');
+
+    const needEl = document.getElementById('xp-need');
+    const daysEl = document.getElementById('xp-days');
+
+    if (!curLv || curLv < 1 || curLv > 59) {
+      needEl.textContent = '현재 레벨은 1~59 사이로 입력해 주세요'; daysEl.textContent = '—'; return;
+    }
+    if (!goalLv || goalLv < 2 || goalLv > 60) {
+      needEl.textContent = '목표 레벨은 2~60 사이로 입력해 주세요'; daysEl.textContent = '—'; return;
+    }
+    if (curLv >= goalLv) {
+      needEl.textContent = '목표 레벨이 현재 레벨보다 높아야 해요'; daysEl.textContent = '—'; return;
+    }
+
+    const curLvNeed = (XP_TABLE[curLv] || 0) - curXp;
+    let totalNeed = Math.max(0, curLvNeed);
+    for (let lv = curLv + 1; lv < goalLv; lv++) {
+      totalNeed += XP_TABLE[lv] || 0;
+    }
+
+    needEl.textContent = fmt(totalNeed) + ' XP';
+    daysEl.textContent = perDay > 0 ? fmt(Math.ceil(totalNeed / perDay)) + '일' : '하루 경험치를 입력해 주세요';
+  }
+
+  calcXp();
+
   function copyXpGroup(groupId, btn) {
     const group = document.getElementById(groupId);
     const rows = group.querySelectorAll('.xp-row');
