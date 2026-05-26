@@ -271,17 +271,18 @@
     background: var(--surface2);
     color: var(--green);
     font-family: 'Space Mono', monospace;
-    font-size: 0.58rem;
-    letter-spacing: 0.09em;
-    padding: 0.45rem 0.7rem;
+    font-size: 0.56rem;
+    letter-spacing: 0.07em;
+    padding: 0.45rem 0.55rem;
     text-align: left;
     border-bottom: 1px solid var(--border);
     opacity: 0.85;
   }
 
-  .cost-table td { padding: 0.42rem 0.7rem; border-bottom: 1px solid var(--border); color: var(--text); }
+  .cost-table td { padding: 0.42rem 0.55rem; border-bottom: 1px solid var(--border); color: var(--text); font-size: 0.81rem; }
   .cost-table tr:last-child td { border-bottom: none; }
   .cost-table .range { color: var(--green); font-weight: 700; font-family: 'Space Mono', monospace; font-size: 0.78rem; }
+  .mat-zero { color: var(--text-muted) !important; font-size: 0.78rem; }
 
   /* ── XP 그룹 ── */
   .xp-group { margin-bottom: 0.9rem; padding-top: 0.9rem; }
@@ -541,7 +542,389 @@
 
   .result-total .result-item b { color: var(--green); font-size: 0.9rem; }
 
-  p { line-height: 1.7; font-size: 0.86rem; color: var(--text); }
+  /* ── 재료 테이블 ── */
+  .mat-table-wrap {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 0.4rem 0 0.25rem;
+    font-size: 0.8rem;
+  }
+
+  .mat-table-row {
+    display: grid;
+    grid-template-columns: 100px repeat(4, 1fr);
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+  }
+
+  .mat-table-row:last-child { border-bottom: none; }
+
+  .mat-table-row > span {
+    padding: 0.42rem 0.6rem;
+    border-right: 1px solid var(--border);
+    color: var(--text);
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  .mat-table-row > span:last-child { border-right: none; }
+  .mat-table-row > span:first-child { text-align: left; }
+
+  .mat-table-head { background: var(--surface2); }
+
+  .mat-table-head > span {
+    color: var(--green);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.04em;
+    opacity: 0.85;
+  }
+
+  .mat-table-total {
+    background: var(--surface2);
+    border-top: 1px solid rgba(130,209,154,0.3) !important;
+  }
+
+  .mat-table-total > span { font-weight: 700; }
+  .mat-table-total > span:first-child { color: var(--green); }
+
+  .mat-lv {
+    color: var(--green) !important;
+    font-weight: 700;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.76rem !important;
+    display: flex !important;
+    flex-direction: column;
+    gap: 0.05rem;
+  }
+
+  .mat-lv-hint {
+    font-size: 0.6rem;
+    color: var(--text-muted) !important;
+    font-weight: 400;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+
+  .mat-dash { color: var(--text-muted) !important; }
+
+  .sk-head { grid-template-columns: 60px 80px repeat(7, 1fr) !important; }
+  .sk-row  { grid-template-columns: 60px 80px repeat(7, 1fr) !important; }
+
+  /* ── 계산기 결과 새 레이아웃 ── */
+  .res-section-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    opacity: 0.75;
+    margin-bottom: 0.35rem;
+  }
+
+  .res-block {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .res-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.38rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.82rem;
+  }
+
+  .res-line:last-child { border-bottom: none; }
+  .res-key { color: var(--text-dim); }
+  .res-val { font-family: 'Space Mono', monospace; font-size: 0.8rem; }
+  .res-val b { color: var(--text); font-weight: 600; }
+
+  .res-total-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.75rem;
+    padding: 0.6rem 0.75rem;
+    background: var(--green-glow);
+    border: 1px solid rgba(130,209,154,0.3);
+    border-radius: 8px;
+    font-size: 0.82rem;
+    color: var(--text-dim);
+  }
+
+  .res-total-row b {
+    color: var(--green);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.92rem;
+    font-weight: 700;
+  }
+
+  .skill-upgrade-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .skill-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.45rem 0.75rem;
+  }
+
+  .skill-name {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--green);
+    min-width: 2rem;
+    font-weight: 700;
+  }
+
+  .skill-arrow {
+    color: var(--text-muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+  }
+
+  .skill-from, .skill-to {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    padding: 0.25rem 0.4rem;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.13s;
+    appearance: none;
+    -webkit-appearance: none;
+    min-width: 80px;
+  }
+
+  .skill-from:focus, .skill-to:focus { border-color: var(--green); }
+
+  .res-drop-row {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .res-drop-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.22rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 0.1em 0.45em;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+  }
+
+  .res-drop-grade {
+    font-size: 0.65rem;
+    opacity: 0.75;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+
+  .grn-txt { color: var(--green); }
+  .blu-txt { color: #7eb8f7; }
+  .pur-txt { color: #c084fc; }
+
+  .res-drop-chip.grn { border-color: rgba(130,209,154,0.25); }
+  .res-drop-chip.blu { border-color: rgba(126,184,247,0.25); }
+  .res-drop-chip.pur { border-color: rgba(192,132,252,0.25); }
+
+
+  .tog-label {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    cursor: pointer;
+    user-select: none;
+  }
+  .tog-label input[type=checkbox] {
+    accent-color: var(--green);
+    width: 0.95rem;
+    height: 0.95rem;
+    cursor: pointer;
+  }
+
+  /* ── 계산기 탭 ── */
+  .calc-tabs {
+    display: flex;
+    gap: 0.3rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0.15rem;
+  }
+  .calc-tab {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-muted);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 0.82rem;
+    padding: 0.55rem 0.85rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-bottom: -1px;
+  }
+  .calc-tab:hover { color: var(--text-dim); }
+  .calc-tab.active { color: var(--green); border-bottom-color: var(--green); font-weight: 600; }
+  .calc-tab-panel { padding-top: 0.2rem; }
+
+  /* ── 레벨 피커 ── */
+  .lv-picker-wrap {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .lv-picker-group { flex: 1; min-width: 0; }
+  .lv-picker-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.58rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+  .lv-btn-row { display: flex; flex-wrap: wrap; gap: 0.28rem; }
+  .lv-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    padding: 0.3em 0.65em;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.13s;
+    min-width: 2.1rem;
+  }
+  .lv-btn:hover { border-color: var(--green); color: var(--green); }
+  .lv-btn.active { background: var(--green-dim); border-color: var(--green); color: var(--green); font-weight: 700; }
+  .lv-btn.disabled { opacity: 0.28; pointer-events: none; }
+  .lv-picker-arrow {
+    color: var(--green);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    padding-top: 1.6rem;
+    flex-shrink: 0;
+  }
+
+  /* ── 옵션 행 ── */
+  .calc-options-row {
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    margin-top: 0.9rem;
+    align-items: flex-start;
+  }
+  .calc-option-block { flex: 1; min-width: 140px; }
+  .tog-grid { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+  .tog-pill { display: flex; align-items: center; cursor: pointer; user-select: none; }
+  .tog-pill input[type=checkbox] { display: none; }
+  .tog-pill span {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 0.74rem;
+    font-family: 'Noto Sans KR', sans-serif;
+    padding: 0.28em 0.72em;
+    border-radius: 6px;
+    transition: all 0.13s;
+    white-space: nowrap;
+  }
+  .tog-pill input:checked + span {
+    background: var(--green-dim);
+    border-color: var(--green);
+    color: var(--green);
+    font-weight: 600;
+  }
+
+  /* ── 스킬 버튼 피커 ── */
+  .skill-row2 {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+  }
+  .skill-name2 {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--green);
+    min-width: 1.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .sk-lvs { display: flex; flex-wrap: wrap; gap: 0.22rem; }
+  .sk-lv-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    width: 1.72rem;
+    height: 1.72rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.12s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .sk-lv-btn:hover { border-color: var(--green); color: var(--green); }
+  .sk-lv-btn.sk-from  { background: rgba(130,209,154,0.1); border-color: rgba(130,209,154,0.5); color: var(--green); }
+  .sk-lv-btn.sk-range { background: rgba(130,209,154,0.06); border-color: rgba(130,209,154,0.25); color: var(--green); opacity: 0.8; }
+  .sk-lv-btn.sk-to    { background: var(--green); border-color: var(--green); color: var(--bg); font-weight: 700; }
+
+  /* ── 서브토글 ── */
+  .sub-toggle {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin: 0.45rem 0 0;
+    overflow: hidden;
+  }
+  .sub-toggle-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    user-select: none;
+    background: var(--surface2);
+    transition: background 0.12s;
+  }
+  .sub-toggle-header:hover { background: #242424; }
+  .sub-toggle-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    opacity: 0.8;
+  }
+  .sub-toggle-arrow { font-size: 0.58rem; color: var(--text-muted); transition: transform 0.18s; }
+  .sub-toggle.open .sub-toggle-arrow { transform: rotate(180deg); }
+  .sub-toggle-body { display: none; padding: 0.65rem 0.1rem 0.1rem; }
+  .sub-toggle.open .sub-toggle-body { display: block; }
 </style>
 </head>
 <body>
@@ -648,27 +1031,15 @@
           </div>
           <div class="cycle-block">
             <div class="cycle-row">
-              <span class="cycle-tag init">시작</span>
+              <span class="cycle-tag loop">반복</span>
               <div class="cycle-steps">
-                <span class="cycle-step">하니엘 <b>EQ</b></span>
-                <span class="cycle-arrow">→</span>
                 <span class="cycle-step">사키리 <b>EQ</b></span>
+                <span class="cycle-arrow">→</span>
+                <span class="cycle-step">하니엘 <b>EQ</b></span>
                 <span class="cycle-arrow">→</span>
                 <span class="cycle-step">제로 <b>QE</b></span>
                 <span class="cycle-arrow">→</span>
                 <span class="cycle-step">나나리 <b>EQ</b> 후 E끝날 때까지 평타</span>
-              </div>
-            </div>
-            <div class="cycle-row">
-              <span class="cycle-tag loop">반복</span>
-              <div class="cycle-steps">
-                <span class="cycle-step">하니엘 <b>E</b></span>
-                <span class="cycle-arrow">→</span>
-                <span class="cycle-step">사키리 <b>E</b></span>
-                <span class="cycle-arrow">→</span>
-                <span class="cycle-step">제로 <b>E</b></span>
-                <span class="cycle-arrow">→</span>
-                <span class="cycle-step">나나리 딜</span>
               </div>
             </div>
             <div class="cycle-notes">
@@ -912,31 +1283,123 @@
       </div>
     </div>
 
-    <div class="card open">
+    <div class="card">
       <div class="card-header" onclick="toggleCard(this)">
         <div class="card-title"><span>육성 비용</span><span class="badge">COST</span></div>
         <span class="card-arrow">▼</span>
       </div>
-      <div class="card-body">
-        <div class="section-label">캐릭터</div>
-        <table class="cost-table">
-          <thead><tr><th>구간</th><th>비틀코인</th><th>경험치책</th></tr></thead>
-          <tbody>
-            <tr><td class="range">50→60</td><td>345,500</td><td>48권</td></tr>
-            <tr><td class="range">60→70</td><td>530,000</td><td>81권</td></tr>
-            <tr><td class="range">70→80</td><td>806,250</td><td>131권</td></tr>
-          </tbody>
-        </table>
+      <div class="card-body" style="padding-top:0.75rem;">
 
-        <div class="section-label" style="margin-top:1rem;">아크</div>
-        <table class="cost-table">
-          <thead><tr><th>구간</th><th>비틀코인</th><th>경험치 물감</th></tr></thead>
-          <tbody>
-            <tr><td class="range">50→60</td><td>251,000</td><td>57개</td></tr>
-            <tr><td class="range">60→70</td><td>373,000</td><td>91개</td></tr>
-            <tr><td class="range">70→80</td><td>567,000</td><td>149개</td></tr>
-          </tbody>
-        </table>
+        <!-- 캐릭터 레벨업 서브토글 -->
+        <div class="sub-toggle">
+          <div class="sub-toggle-header" onclick="toggleSub(this)">
+            <span class="sub-toggle-title">캐릭터 레벨업</span>
+            <span class="sub-toggle-arrow">▼</span>
+          </div>
+          <div class="sub-toggle-body">
+            <table class="cost-table">
+              <thead><tr><th>구간</th><th>비틀코인</th><th>경험치책</th></tr></thead>
+              <tbody>
+                <tr><td class="range">1→20</td>  <td>30,000</td> <td>6권</td></tr>
+                <tr><td class="range">20→30</td> <td>55,000</td> <td>11권</td></tr>
+                <tr><td class="range">30→40</td> <td>95,000</td> <td>19권</td></tr>
+                <tr><td class="range">40→50</td> <td>155,000</td><td>31권</td></tr>
+                <tr><td class="range">50→60</td> <td>245,500</td><td>48권</td></tr>
+                <tr><td class="range">60→70</td> <td>405,000</td><td>81권</td></tr>
+                <tr><td class="range">70→80</td> <td>806,250</td><td>131권</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 아크 레벨업 서브토글 -->
+        <div class="sub-toggle">
+          <div class="sub-toggle-header" onclick="toggleSub(this)">
+            <span class="sub-toggle-title">아크 레벨업</span>
+            <span class="sub-toggle-arrow">▼</span>
+          </div>
+          <div class="sub-toggle-body">
+            <table class="cost-table">
+              <thead><tr><th>구간</th><th>비틀코인</th><th>경험치 물감</th></tr></thead>
+              <tbody>
+                <tr><td class="range">1→20</td>  <td>12,000</td> <td>4개</td></tr>
+                <tr><td class="range">20→30</td> <td>30,000</td> <td>10개</td></tr>
+                <tr><td class="range">30→40</td> <td>60,000</td> <td>20개</td></tr>
+                <tr><td class="range">40→50</td> <td>105,000</td><td>35개</td></tr>
+                <tr><td class="range">50→60</td> <td>171,000</td><td>57개</td></tr>
+                <tr><td class="range">60→70</td> <td>273,000</td><td>91개</td></tr>
+                <tr><td class="range">70→80</td> <td>567,000</td><td>149개</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 캐릭터 돌파 재료 서브토글 -->
+        <div class="sub-toggle">
+          <div class="sub-toggle-header" onclick="toggleSub(this)">
+            <span class="sub-toggle-title">캐릭터 돌파 재료</span>
+            <span class="sub-toggle-arrow">▼</span>
+          </div>
+          <div class="sub-toggle-body">
+            <div class="mat-table-wrap">
+              <div class="mat-table-row mat-table-head" style="grid-template-columns:1.5fr 1.3fr 1.5fr 1.5fr;">
+                <span>돌파 시점</span><span>비틀코인</span><span>이상추적재료</span><span>이상드롭</span>
+              </div>
+              <div class="mat-table-row" style="grid-template-columns:1.5fr 1.3fr 1.5fr 1.5fr;"><span class="mat-lv">20렙<span class="mat-lv-hint">에서 돌파</span></span><span>25,000</span><span class="mat-dash">—</span><span><b style="color:var(--green);">초록</b> 5개</span></div>
+              <div class="mat-table-row" style="grid-template-columns:1.5fr 1.3fr 1.5fr 1.5fr;"><span class="mat-lv">30렙<span class="mat-lv-hint">에서 돌파</span></span><span>50,000</span><span>2개</span><span><b style="color:var(--green);">초록</b> 12개</span></div>
+              <div class="mat-table-row" style="grid-template-columns:1.5fr 1.3fr 1.5fr 1.5fr;"><span class="mat-lv">40렙<span class="mat-lv-hint">에서 돌파</span></span><span>75,000</span><span>8개</span><span><b style="color:#7eb8f7;">파랑</b> 6개</span></div>
+              <div class="mat-table-row" style="grid-template-columns:1.5fr 1.3fr 1.5fr 1.5fr;"><span class="mat-lv">50렙<span class="mat-lv-hint">에서 돌파</span></span><span>100,000</span><span>16개</span><span><b style="color:#7eb8f7;">파랑</b> 12개</span></div>
+              <div class="mat-table-row" style="grid-template-columns:1.5fr 1.3fr 1.5fr 1.5fr;"><span class="mat-lv">60렙<span class="mat-lv-hint">에서 돌파</span></span><span>125,000</span><span>24개</span><span><b style="color:#c084fc;">보라</b> 6개</span></div>
+              <div class="mat-table-row" style="grid-template-columns:1.5fr 1.3fr 1.5fr 1.5fr;"><span class="mat-lv">70렙<span class="mat-lv-hint">에서 돌파</span></span><span>150,000</span><span>36개</span><span><b style="color:#c084fc;">보라</b> 9개</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 아크 돌파 재료 서브토글 -->
+        <div class="sub-toggle">
+          <div class="sub-toggle-header" onclick="toggleSub(this)">
+            <span class="sub-toggle-title">아크 돌파 재료</span>
+            <span class="sub-toggle-arrow">▼</span>
+          </div>
+          <div class="sub-toggle-body">
+            <div class="mat-table-wrap">
+              <div class="mat-table-row mat-table-head" style="grid-template-columns:1.5fr 1.3fr 1.5fr 1.5fr;">
+                <span>돌파 시점</span><span>비틀코인</span><span>버블캔</span><span>이상드롭</span>
+              </div>
+              <div class="mat-table-row" style="grid-template-columns:1.5fr 1.3fr 1.5fr 1.5fr;"><span class="mat-lv">20렙<span class="mat-lv-hint">에서 돌파</span></span><span>20,000</span><span><b style="color:var(--green);">초록</b> 4개</span><span><b style="color:var(--green);">초록</b> 4개</span></div>
+              <div class="mat-table-row" style="grid-template-columns:1.5fr 1.3fr 1.5fr 1.5fr;"><span class="mat-lv">30렙<span class="mat-lv-hint">에서 돌파</span></span><span>40,000</span><span><b style="color:var(--green);">초록</b> 10개</span><span><b style="color:var(--green);">초록</b> 10개</span></div>
+              <div class="mat-table-row" style="grid-template-columns:1.5fr 1.3fr 1.5fr 1.5fr;"><span class="mat-lv">40렙<span class="mat-lv-hint">에서 돌파</span></span><span>60,000</span><span><b style="color:#7eb8f7;">파랑</b> 6개</span><span><b style="color:#7eb8f7;">파랑</b> 6개</span></div>
+              <div class="mat-table-row" style="grid-template-columns:1.5fr 1.3fr 1.5fr 1.5fr;"><span class="mat-lv">50렙<span class="mat-lv-hint">에서 돌파</span></span><span>80,000</span><span><b style="color:#7eb8f7;">파랑</b> 12개</span><span><b style="color:#7eb8f7;">파랑</b> 12개</span></div>
+              <div class="mat-table-row" style="grid-template-columns:1.5fr 1.3fr 1.5fr 1.5fr;"><span class="mat-lv">60렙<span class="mat-lv-hint">에서 돌파</span></span><span>100,000</span><span><b style="color:#c084fc;">보라</b> 6개</span><span><b style="color:#c084fc;">보라</b> 6개</span></div>
+              <div class="mat-table-row" style="grid-template-columns:1.5fr 1.3fr 1.5fr 1.5fr;"><span class="mat-lv">70렙<span class="mat-lv-hint">에서 돌파</span></span><span>120,000</span><span><b style="color:#c084fc;">보라</b> 12개</span><span><b style="color:#c084fc;">보라</b> 12개</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 이능력 강화 재료 서브토글 -->
+        <div class="sub-toggle" style="margin-bottom:0.25rem;">
+          <div class="sub-toggle-header" onclick="toggleSub(this)">
+            <span class="sub-toggle-title">이능력 강화 재료 (스킬 1개 기준)</span>
+            <span class="sub-toggle-arrow">▼</span>
+          </div>
+          <div class="sub-toggle-body">
+            <div class="mat-table-wrap">
+              <div class="mat-table-row mat-table-head" style="grid-template-columns:1.2fr 1.4fr 1.6fr 1.6fr 1fr;">
+                <span>구간</span><span>비틀코인</span><span>이상드롭</span><span>이능력재료</span><span>주간보스</span>
+              </div>
+              <div class="mat-table-row" style="grid-template-columns:1.2fr 1.4fr 1.6fr 1.6fr 1fr;"><span class="mat-lv">1→2</span><span>2,000</span><span><b style="color:var(--green);">초록</b> 2개</span><span><b style="color:var(--green);">초록</b> 2개</span><span class="mat-dash">—</span></div>
+              <div class="mat-table-row" style="grid-template-columns:1.2fr 1.4fr 1.6fr 1.6fr 1fr;"><span class="mat-lv">2→3</span><span>5,000</span><span><b style="color:var(--green);">초록</b> 3개</span><span><b style="color:var(--green);">초록</b> 3개</span><span class="mat-dash">—</span></div>
+              <div class="mat-table-row" style="grid-template-columns:1.2fr 1.4fr 1.6fr 1.6fr 1fr;"><span class="mat-lv">3→4</span><span>10,000</span><span><b style="color:var(--green);">초록</b> 5개</span><span><b style="color:var(--green);">초록</b> 5개</span><span class="mat-dash">—</span></div>
+              <div class="mat-table-row" style="grid-template-columns:1.2fr 1.4fr 1.6fr 1.6fr 1fr;"><span class="mat-lv">4→5</span><span>20,000</span><span><b style="color:#7eb8f7;">파랑</b> 2개</span><span><b style="color:#7eb8f7;">파랑</b> 2개</span><span class="mat-dash">—</span></div>
+              <div class="mat-table-row" style="grid-template-columns:1.2fr 1.4fr 1.6fr 1.6fr 1fr;"><span class="mat-lv">5→6</span><span>40,000</span><span><b style="color:#7eb8f7;">파랑</b> 3개</span><span><b style="color:#7eb8f7;">파랑</b> 3개</span><span class="mat-dash">—</span></div>
+              <div class="mat-table-row" style="grid-template-columns:1.2fr 1.4fr 1.6fr 1.6fr 1fr;"><span class="mat-lv">6→7</span><span>60,000</span><span><b style="color:#7eb8f7;">파랑</b> 5개</span><span><b style="color:#7eb8f7;">파랑</b> 5개</span><span>1개</span></div>
+              <div class="mat-table-row" style="grid-template-columns:1.2fr 1.4fr 1.6fr 1.6fr 1fr;"><span class="mat-lv">7→8</span><span>80,000</span><span><b style="color:#c084fc;">보라</b> 3개</span><span><b style="color:#c084fc;">보라</b> 3개</span><span>1개</span></div>
+              <div class="mat-table-row" style="grid-template-columns:1.2fr 1.4fr 1.6fr 1.6fr 1fr;"><span class="mat-lv">8→9</span><span>100,000</span><span><b style="color:#c084fc;">보라</b> 5개</span><span><b style="color:#c084fc;">보라</b> 5개</span><span>2개</span></div>
+              <div class="mat-table-row" style="grid-template-columns:1.2fr 1.4fr 1.6fr 1.6fr 1fr;"><span class="mat-lv">9→10</span><span>120,000</span><span><b style="color:#c084fc;">보라</b> 8개</span><span><b style="color:#c084fc;">보라</b> 8개</span><span>4개</span></div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -948,57 +1411,190 @@
       <div class="card-body">
         <div class="calc-wrap">
 
-          <div class="calc-row">
-            <div class="calc-field">
-              <div class="section-label" style="margin:0.75rem 0 0.4rem;">구간</div>
-              <div class="select-row">
-                <select id="lvFrom" onchange="calcCost()">
-                  <option value="50" selected>50렙</option>
-                  <option value="60">60렙</option>
-                  <option value="70">70렙</option>
-                </select>
-                <span class="select-arrow-label">→</span>
-                <select id="lvTo" onchange="calcCost()">
-                  <option value="60" selected>60렙</option>
-                  <option value="70">70렙</option>
-                  <option value="80">80렙</option>
-                </select>
-              </div>
-              <div id="range-warn" style="color:#f87171;font-size:0.75rem;margin-top:0.4rem;display:none;">시작 렙이 끝 렙보다 낮아야 해요</div>
-            </div>
+          <!-- 탭 -->
+          <div class="calc-tabs">
+            <button class="calc-tab active" onclick="switchCalcTab('char', this)">캐릭터 레벨업</button>
+            <button class="calc-tab" onclick="switchCalcTab('arc', this)">아크 레벨업</button>
+            <button class="calc-tab" onclick="switchCalcTab('skill', this)">스킬 강화</button>
+          </div>
 
-            <div class="calc-field">
-              <div class="section-label" style="margin:0.75rem 0 0.4rem;">캐릭터 수</div>
-              <div class="count-input-wrap">
-                <button class="count-btn" onclick="adjustCount(-1)">−</button>
-                <input id="charcount" type="number" min="1" max="99" value="1" oninput="calcCost()">
-                <button class="count-btn" onclick="adjustCount(1)">+</button>
+          <!-- ── 탭 1: 캐릭터 레벨업 ── -->
+          <div class="calc-tab-panel" id="tab-char">
+            <div class="calc-row">
+              <div class="calc-field">
+                <div class="section-label" style="margin:0.75rem 0 0.4rem;">레벨 구간</div>
+                <div class="select-row">
+                  <select id="char-lvFrom" onchange="calcChar()">
+                    <option value="1">1렙</option>
+                    <option value="20">20렙</option>
+                    <option value="30">30렙</option>
+                    <option value="40">40렙</option>
+                    <option value="50" selected>50렙</option>
+                    <option value="60">60렙</option>
+                    <option value="70">70렙</option>
+                  </select>
+                  <span class="select-arrow-label">→</span>
+                  <select id="char-lvTo" onchange="calcChar()">
+                    <option value="20">20렙</option>
+                    <option value="30">30렙</option>
+                    <option value="40">40렙</option>
+                    <option value="50">50렙</option>
+                    <option value="60" selected>60렙</option>
+                    <option value="70">70렙</option>
+                    <option value="80">80렙</option>
+                  </select>
+                </div>
+                <div id="char-warn" style="color:#f87171;font-size:0.75rem;margin-top:0.4rem;display:none;">시작 렙이 끝 렙보다 낮아야 해요</div>
               </div>
+              <div class="calc-field">
+                <div class="section-label" style="margin:0.75rem 0 0.4rem;">캐릭터 수</div>
+                <div class="count-input-wrap">
+                  <button class="count-btn" onclick="adjustCount('char-count', calcChar, -1)">−</button>
+                  <input id="char-count" type="number" min="1" max="99" value="1" oninput="calcChar()">
+                  <button class="count-btn" onclick="adjustCount('char-count', calcChar, 1)">+</button>
+                </div>
+              </div>
+            </div>
+            <div style="margin:0.6rem 0 0.9rem;">
+              <label class="tog-label"><input type="checkbox" id="char-incl-bp" checked onchange="calcChar()"> 돌파 재료 포함</label>
+            </div>
+            <div class="calc-result" id="char-result">
+              <div class="res-line"><span class="res-key">비틀코인 (레벨업)</span><span class="res-val"><b id="cr-lv-coin">—</b></span></div>
+              <div class="res-line"><span class="res-key">경험치책</span><span class="res-val"><b id="cr-lv-book">—</b></span></div>
+              <div id="cr-bp-wrap">
+                <div class="res-line" style="margin-top:0.5rem;"><span class="res-key">비틀코인 (돌파)</span><span class="res-val"><b id="cr-bp-coin">—</b></span></div>
+                <div class="res-line"><span class="res-key">이상추적재료</span><span class="res-val"><b id="cr-bp-trace">—</b></span></div>
+                <div class="res-line"><span class="res-key">이상드롭</span><span class="res-val res-drop-row"><span class="res-drop-chip grn"><b id="cr-bp-grn">—</b> <span class="res-drop-grade grn-txt">초록</span></span><span class="res-drop-chip blu"><b id="cr-bp-blu">—</b> <span class="res-drop-grade blu-txt">파랑</span></span><span class="res-drop-chip pur"><b id="cr-bp-pur">—</b> <span class="res-drop-grade pur-txt">보라</span></span></span></div>
+              </div>
+              <div class="res-total-row"><span>비틀코인 합계</span><b id="cr-total">—</b></div>
             </div>
           </div>
 
-          <div class="calc-result" id="calcresult">
-            <div class="result-row">
-              <span class="result-label">캐릭터</span>
-              <div class="result-vals">
-                <span class="result-item">비틀코인 <b id="res-char-coin">—</b></span>
-                <span class="result-item">경험치책 <b id="res-char-book">—</b></span>
+          <!-- ── 탭 2: 아크 레벨업 ── -->
+          <div class="calc-tab-panel" id="tab-arc" style="display:none;">
+            <div class="calc-row">
+              <div class="calc-field">
+                <div class="section-label" style="margin:0.75rem 0 0.4rem;">레벨 구간</div>
+                <div class="select-row">
+                  <select id="arc-lvFrom" onchange="calcArc()">
+                    <option value="1">1렙</option>
+                    <option value="20">20렙</option>
+                    <option value="30">30렙</option>
+                    <option value="40">40렙</option>
+                    <option value="50" selected>50렙</option>
+                    <option value="60">60렙</option>
+                    <option value="70">70렙</option>
+                  </select>
+                  <span class="select-arrow-label">→</span>
+                  <select id="arc-lvTo" onchange="calcArc()">
+                    <option value="20">20렙</option>
+                    <option value="30">30렙</option>
+                    <option value="40">40렙</option>
+                    <option value="50">50렙</option>
+                    <option value="60" selected>60렙</option>
+                    <option value="70">70렙</option>
+                    <option value="80">80렙</option>
+                  </select>
+                </div>
+                <div id="arc-warn" style="color:#f87171;font-size:0.75rem;margin-top:0.4rem;display:none;">시작 렙이 끝 렙보다 낮아야 해요</div>
+              </div>
+              <div class="calc-field">
+                <div class="section-label" style="margin:0.75rem 0 0.4rem;">아크 수</div>
+                <div class="count-input-wrap">
+                  <button class="count-btn" onclick="adjustCount('arc-count', calcArc, -1)">−</button>
+                  <input id="arc-count" type="number" min="1" max="99" value="1" oninput="calcArc()">
+                  <button class="count-btn" onclick="adjustCount('arc-count', calcArc, 1)">+</button>
+                </div>
               </div>
             </div>
-            <div class="result-divider"></div>
-            <div class="result-row">
-              <span class="result-label">아크</span>
-              <div class="result-vals">
-                <span class="result-item">비틀코인 <b id="res-arc-coin">—</b></span>
-                <span class="result-item">경험치 물감 <b id="res-arc-mat">—</b></span>
+            <div style="margin:0.6rem 0 0.9rem;">
+              <label class="tog-label"><input type="checkbox" id="arc-incl-bp" checked onchange="calcArc()"> 돌파 재료 포함</label>
+            </div>
+            <div class="calc-result" id="arc-result">
+              <div class="res-line"><span class="res-key">비틀코인 (레벨업)</span><span class="res-val"><b id="ar-lv-coin">—</b></span></div>
+              <div class="res-line"><span class="res-key">경험치 물감</span><span class="res-val"><b id="ar-lv-mat">—</b></span></div>
+              <div id="ar-bp-wrap">
+                <div class="res-line" style="margin-top:0.5rem;"><span class="res-key">비틀코인 (돌파)</span><span class="res-val"><b id="ar-bp-coin">—</b></span></div>
+                <div class="res-line"><span class="res-key">버블캔</span><span class="res-val res-drop-row"><span class="res-drop-chip grn"><b id="ar-bp-can-grn">—</b> <span class="res-drop-grade grn-txt">초록</span></span><span class="res-drop-chip blu"><b id="ar-bp-can-blu">—</b> <span class="res-drop-grade blu-txt">파랑</span></span><span class="res-drop-chip pur"><b id="ar-bp-can-pur">—</b> <span class="res-drop-grade pur-txt">보라</span></span></span></div>
+                <div class="res-line"><span class="res-key">이상드롭</span><span class="res-val res-drop-row"><span class="res-drop-chip grn"><b id="ar-bp-grn">—</b> <span class="res-drop-grade grn-txt">초록</span></span><span class="res-drop-chip blu"><b id="ar-bp-blu">—</b> <span class="res-drop-grade blu-txt">파랑</span></span><span class="res-drop-chip pur"><b id="ar-bp-pur">—</b> <span class="res-drop-grade pur-txt">보라</span></span></span></div>
+              </div>
+              <div class="res-total-row"><span>비틀코인 합계</span><b id="ar-total">—</b></div>
+            </div>
+          </div>
+
+          <!-- ── 탭 3: 스킬 강화 ── -->
+          <div class="calc-tab-panel" id="tab-skill" style="display:none;">
+            <div class="calc-row">
+              <div class="calc-field">
+                <div class="section-label" style="margin:0.75rem 0 0.4rem;">캐릭터 수</div>
+                <div class="count-input-wrap">
+                  <button class="count-btn" onclick="adjustCount('sk-count', calcSkill, -1)">−</button>
+                  <input id="sk-count" type="number" min="1" max="99" value="1" oninput="calcSkill()">
+                  <button class="count-btn" onclick="adjustCount('sk-count', calcSkill, 1)">+</button>
+                </div>
               </div>
             </div>
-            <div class="result-divider"></div>
-            <div class="result-row result-total">
-              <span class="result-label">합계</span>
-              <div class="result-vals">
-                <span class="result-item">비틀코인 <b id="res-total-coin">—</b></span>
+            <div class="section-label" style="margin:0.6rem 0 0.5rem;">스킬 강화 구간 (캐릭터당)</div>
+            <div id="sk-warn" style="display:none;color:#f87171;font-size:0.75rem;margin-bottom:0.4rem;"></div>
+            <div class="skill-upgrade-grid">
+              <div class="skill-row">
+                <span class="skill-name">평타</span>
+                <select class="skill-from" id="skillFromAA" onchange="calcSkill()">
+                  <option value="0" selected>—</option>
+                  <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+                  <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+                  <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+                </select>
+                <span class="skill-arrow">→</span>
+                <select class="skill-to" id="skillToAA" onchange="calcSkill()">
+                  <option value="0" selected>—</option>
+                  <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+                  <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+                  <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
               </div>
+              <div class="skill-row">
+                <span class="skill-name">E</span>
+                <select class="skill-from" id="skillFromE" onchange="calcSkill()">
+                  <option value="0" selected>—</option>
+                  <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+                  <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+                  <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+                </select>
+                <span class="skill-arrow">→</span>
+                <select class="skill-to" id="skillToE" onchange="calcSkill()">
+                  <option value="0" selected>—</option>
+                  <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+                  <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+                  <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
+              </div>
+              <div class="skill-row">
+                <span class="skill-name">Q</span>
+                <select class="skill-from" id="skillFromQ" onchange="calcSkill()">
+                  <option value="0" selected>—</option>
+                  <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+                  <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+                  <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+                </select>
+                <span class="skill-arrow">→</span>
+                <select class="skill-to" id="skillToQ" onchange="calcSkill()">
+                  <option value="0" selected>—</option>
+                  <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+                  <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+                  <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
+              </div>
+            </div>
+            <div class="calc-result" id="skill-result" style="margin-top:0.9rem;">
+              <div class="res-line"><span class="res-key">비틀코인</span><span class="res-val"><b id="sk-coin">—</b></span></div>
+              <div class="res-line"><span class="res-key">이상드롭</span><span class="res-val res-drop-row"><span class="res-drop-chip grn"><b id="sk-grn-drop">—</b> <span class="res-drop-grade grn-txt">초록</span></span><span class="res-drop-chip blu"><b id="sk-blu-drop">—</b> <span class="res-drop-grade blu-txt">파랑</span></span><span class="res-drop-chip pur"><b id="sk-pur-drop">—</b> <span class="res-drop-grade pur-txt">보라</span></span></span></div>
+              <div class="res-line"><span class="res-key">이능력재료</span><span class="res-val res-drop-row"><span class="res-drop-chip grn"><b id="sk-grn-mat">—</b> <span class="res-drop-grade grn-txt">초록</span></span><span class="res-drop-chip blu"><b id="sk-blu-mat">—</b> <span class="res-drop-grade blu-txt">파랑</span></span><span class="res-drop-chip pur"><b id="sk-pur-mat">—</b> <span class="res-drop-grade pur-txt">보라</span></span></span></div>
+              <div class="res-line"><span class="res-key">주간보스 재료</span><span class="res-val"><b id="sk-boss">—</b></span></div>
+              <div class="res-total-row"><span>비틀코인 합계</span><b id="sk-total">—</b></div>
             </div>
           </div>
 
@@ -1230,53 +1826,221 @@
   </div>
 
 <script>
-  function adjustCount(delta) {
-    const input = document.getElementById('charcount');
-    const val = Math.max(1, Math.min(99, (parseInt(input.value) || 1) + delta));
-    input.value = val;
-    calcCost();
+  // ── 탭 전환 ──
+  function switchCalcTab(tab, btn) {
+    document.querySelectorAll('.calc-tab').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.calc-tab-panel').forEach(p => p.style.display = 'none');
+    btn.classList.add('active');
+    document.getElementById('tab-' + tab).style.display = '';
+  }
+
+  function adjustCount(id, fn, delta) {
+    const input = document.getElementById(id);
+    input.value = Math.max(1, Math.min(99, (parseInt(input.value) || 1) + delta));
+    fn();
   }
 
   const COST = {
-    char: { 50: {coin:345500, book:48}, 60: {coin:530000, book:81}, 70: {coin:806250, book:131} },
-    arc:  { 50: {coin:251000, mat:57},  60: {coin:373000, mat:91},  70: {coin:567000, mat:149} }
+    char: {
+       1:{coin:30000, book:6},
+      20:{coin:55000, book:11},
+      30:{coin:95000, book:19},
+      40:{coin:155000,book:31},
+      50:{coin:245500,book:48},
+      60:{coin:405000,book:81},
+      70:{coin:806250,book:131}
+    },
+    arc: {
+       1:{coin:12000, mat:4},
+      20:{coin:30000, mat:10},
+      30:{coin:60000, mat:20},
+      40:{coin:105000,mat:35},
+      50:{coin:171000,mat:57},
+      60:{coin:273000,mat:91},
+      70:{coin:567000,mat:149}
+    }
   };
 
-  function calcCost() {
-    const from  = parseInt(document.getElementById('lvFrom').value);
-    const to    = parseInt(document.getElementById('lvTo').value);
-    const warn  = document.getElementById('range-warn');
-    const count = Math.max(1, parseInt(document.getElementById('charcount').value) || 1);
+  const BP_CHAR = {
+    20: {coin:25000,  trace:0,  grn:5,  blu:0,  pur:0},
+    30: {coin:50000,  trace:2,  grn:12, blu:0,  pur:0},
+    40: {coin:75000,  trace:8,  grn:0,  blu:6,  pur:0},
+    50: {coin:100000, trace:16, grn:0,  blu:12, pur:0},
+    60: {coin:125000, trace:24, grn:0,  blu:0,  pur:6},
+    70: {coin:150000, trace:36, grn:0,  blu:0,  pur:9},
+  };
+
+  const BP_ARC = {
+    20: {coin:20000,  canGrn:4,  canBlu:0,  canPur:0,  grn:4,  blu:0,  pur:0},
+    30: {coin:40000,  canGrn:10, canBlu:0,  canPur:0,  grn:10, blu:0,  pur:0},
+    40: {coin:60000,  canGrn:0,  canBlu:6,  canPur:0,  grn:0,  blu:6,  pur:0},
+    50: {coin:80000,  canGrn:0,  canBlu:12, canPur:0,  grn:0,  blu:12, pur:0},
+    60: {coin:100000, canGrn:0,  canBlu:0,  canPur:6,  grn:0,  blu:0,  pur:6},
+    70: {coin:120000, canGrn:0,  canBlu:0,  canPur:12, grn:0,  blu:0,  pur:12},
+  };
+
+  const SK = {
+    1: {coin:2000,   grnDrop:2, bluDrop:0, purDrop:0, grnMat:2, bluMat:0, purMat:0, boss:0},
+    2: {coin:5000,   grnDrop:3, bluDrop:0, purDrop:0, grnMat:3, bluMat:0, purMat:0, boss:0},
+    3: {coin:10000,  grnDrop:5, bluDrop:0, purDrop:0, grnMat:5, bluMat:0, purMat:0, boss:0},
+    4: {coin:20000,  grnDrop:0, bluDrop:2, purDrop:0, grnMat:0, bluMat:2, purMat:0, boss:0},
+    5: {coin:40000,  grnDrop:0, bluDrop:3, purDrop:0, grnMat:0, bluMat:3, purMat:0, boss:0},
+    6: {coin:60000,  grnDrop:0, bluDrop:5, purDrop:0, grnMat:0, bluMat:5, purMat:0, boss:1},
+    7: {coin:80000,  grnDrop:0, bluDrop:0, purDrop:3, grnMat:0, bluMat:0, purMat:3, boss:1},
+    8: {coin:100000, grnDrop:0, bluDrop:0, purDrop:5, grnMat:0, bluMat:0, purMat:5, boss:2},
+    9: {coin:120000, grnDrop:0, bluDrop:0, purDrop:8, grnMat:0, bluMat:0, purMat:8, boss:4},
+  };
+
+  const LV_BOUNDS = [1, 20, 30, 40, 50, 60, 70, 80];
+
+  function sumLvCost(type, from, to) {
+    let coin = 0, extra = 0;
+    for (let i = 0; i < LV_BOUNDS.length - 1; i++) {
+      const a = LV_BOUNDS[i], b = LV_BOUNDS[i+1];
+      if (a >= to || b <= from) continue;
+      const ratio = (Math.min(b, to) - Math.max(a, from)) / (b - a);
+      const d = COST[type][a];
+      if (!d) continue;
+      coin  += d.coin * ratio;
+      extra += (d.book !== undefined ? d.book : (d.mat !== undefined ? d.mat : 0)) * ratio;
+    }
+    return { coin: Math.round(coin), extra: Math.round(extra) };
+  }
+
+  const fmt = n => n.toLocaleString('ko-KR');
+
+  function calcChar() {
+    const from  = parseInt(document.getElementById('char-lvFrom').value);
+    const to    = parseInt(document.getElementById('char-lvTo').value);
+    const count = Math.max(1, parseInt(document.getElementById('char-count').value) || 1);
+    const inclBp = document.getElementById('char-incl-bp').checked;
+    const warn  = document.getElementById('char-warn');
 
     if (from >= to) {
       warn.style.display = 'block';
-      ['res-char-coin','res-char-book','res-arc-coin','res-arc-mat','res-total-coin']
-        .forEach(id => document.getElementById(id).textContent = '—');
+      ['cr-lv-coin','cr-lv-book','cr-bp-coin','cr-bp-trace','cr-bp-grn','cr-bp-blu','cr-bp-pur','cr-total']
+        .forEach(id => { const el = document.getElementById(id); if (el) el.textContent = '—'; });
       return;
     }
     warn.style.display = 'none';
 
-    let charCoin = 0, charBook = 0, arcCoin = 0, arcMat = 0;
-    for (let lv = from; lv < to; lv += 10) {
-      // [버그1 수정] 유효하지 않은 구간 방어
-      if (!COST.char[lv] || !COST.arc[lv]) continue;
-      charCoin += COST.char[lv].coin;
-      charBook += COST.char[lv].book;
-      arcCoin  += COST.arc[lv].coin;
-      arcMat   += COST.arc[lv].mat;
+    const lvCost = sumLvCost('char', from, to);
+    let bpCoin = 0, bpTrace = 0, bpGrn = 0, bpBlu = 0, bpPur = 0;
+    if (inclBp) {
+      for (const bpLv of [20,30,40,50,60,70]) {
+        if (bpLv >= from && bpLv < to && BP_CHAR[bpLv]) {
+          bpCoin  += BP_CHAR[bpLv].coin;
+          bpTrace += BP_CHAR[bpLv].trace;
+          bpGrn   += BP_CHAR[bpLv].grn;
+          bpBlu   += BP_CHAR[bpLv].blu;
+          bpPur   += BP_CHAR[bpLv].pur;
+        }
+      }
     }
-    charCoin *= count; charBook *= count; arcCoin *= count; arcMat *= count;
-    const total = charCoin + arcCoin;
 
-    const fmt = n => n.toLocaleString('ko-KR');
-    document.getElementById('res-char-coin').textContent = fmt(charCoin);
-    document.getElementById('res-char-book').textContent = fmt(charBook) + '권';
-    document.getElementById('res-arc-coin').textContent  = fmt(arcCoin);
-    document.getElementById('res-arc-mat').textContent   = fmt(arcMat) + '개';
-    document.getElementById('res-total-coin').textContent = fmt(total);
+    document.getElementById('cr-lv-coin').textContent  = fmt(lvCost.coin   * count);
+    document.getElementById('cr-lv-book').textContent  = fmt(lvCost.extra  * count) + '권';
+    document.getElementById('cr-bp-wrap').style.display = inclBp ? '' : 'none';
+    document.getElementById('cr-bp-coin').textContent  = fmt(bpCoin  * count);
+    document.getElementById('cr-bp-trace').textContent = fmt(bpTrace * count);
+    document.getElementById('cr-bp-grn').textContent   = fmt(bpGrn   * count);
+    document.getElementById('cr-bp-blu').textContent   = fmt(bpBlu   * count);
+    document.getElementById('cr-bp-pur').textContent   = fmt(bpPur   * count);
+    document.getElementById('cr-total').textContent    = fmt((lvCost.coin + bpCoin) * count);
   }
 
-  calcCost();
+  function calcArc() {
+    const from  = parseInt(document.getElementById('arc-lvFrom').value);
+    const to    = parseInt(document.getElementById('arc-lvTo').value);
+    const count = Math.max(1, parseInt(document.getElementById('arc-count').value) || 1);
+    const inclBp = document.getElementById('arc-incl-bp').checked;
+    const warn  = document.getElementById('arc-warn');
+
+    if (from >= to) {
+      warn.style.display = 'block';
+      ['ar-lv-coin','ar-lv-mat','ar-bp-coin','ar-bp-grn','ar-bp-blu','ar-bp-pur','ar-total']
+        .forEach(id => { const el = document.getElementById(id); if (el) el.textContent = '—'; });
+      return;
+    }
+    warn.style.display = 'none';
+
+    const lvCost = sumLvCost('arc', from, to);
+    let bpCoin = 0, bpCanGrn = 0, bpCanBlu = 0, bpCanPur = 0, bpGrn = 0, bpBlu = 0, bpPur = 0;
+    if (inclBp) {
+      for (const bpLv of [20,30,40,50,60,70]) {
+        if (bpLv >= from && bpLv < to && BP_ARC[bpLv]) {
+          bpCoin   += BP_ARC[bpLv].coin;
+          bpCanGrn += BP_ARC[bpLv].canGrn;
+          bpCanBlu += BP_ARC[bpLv].canBlu;
+          bpCanPur += BP_ARC[bpLv].canPur;
+          bpGrn    += BP_ARC[bpLv].grn;
+          bpBlu    += BP_ARC[bpLv].blu;
+          bpPur    += BP_ARC[bpLv].pur;
+        }
+      }
+    }
+
+    document.getElementById('ar-lv-coin').textContent  = fmt(lvCost.coin  * count);
+    document.getElementById('ar-lv-mat').textContent   = fmt(lvCost.extra * count) + '개';
+    document.getElementById('ar-bp-wrap').style.display    = inclBp ? '' : 'none';
+    document.getElementById('ar-bp-coin').textContent     = fmt(bpCoin   * count);
+    document.getElementById('ar-bp-can-grn').textContent  = fmt(bpCanGrn * count);
+    document.getElementById('ar-bp-can-blu').textContent  = fmt(bpCanBlu * count);
+    document.getElementById('ar-bp-can-pur').textContent  = fmt(bpCanPur * count);
+    document.getElementById('ar-bp-grn').textContent      = fmt(bpGrn    * count);
+    document.getElementById('ar-bp-blu').textContent      = fmt(bpBlu    * count);
+    document.getElementById('ar-bp-pur').textContent      = fmt(bpPur    * count);
+    document.getElementById('ar-total').textContent    = fmt((lvCost.coin + bpCoin) * count);
+  }
+
+  function calcSkillRange(from, to, label) {
+    if (!from || !to) return {coin:0,grnDrop:0,bluDrop:0,purDrop:0,grnMat:0,bluMat:0,purMat:0,boss:0};
+    if (from >= to) {
+      const warnEl = document.getElementById('sk-warn');
+      if (warnEl && label) warnEl.textContent = `${label}: 시작이 목표보다 높거나 같아요`;
+      if (warnEl) warnEl.style.display = 'block';
+      return {coin:0,grnDrop:0,bluDrop:0,purDrop:0,grnMat:0,bluMat:0,purMat:0,boss:0};
+    }
+    let r = {coin:0,grnDrop:0,bluDrop:0,purDrop:0,grnMat:0,bluMat:0,purMat:0,boss:0};
+    for (let lv = from; lv < to; lv++) {
+      const s = SK[lv]; if (!s) continue;
+      r.coin += s.coin;
+      r.grnDrop += s.grnDrop; r.bluDrop += s.bluDrop; r.purDrop += s.purDrop;
+      r.grnMat  += s.grnMat;  r.bluMat  += s.bluMat;  r.purMat  += s.purMat;
+      r.boss    += s.boss;
+    }
+    return r;
+  }
+
+  function calcSkill() {
+    const count = Math.max(1, parseInt(document.getElementById('sk-count').value) || 1);
+    const skWarn = document.getElementById('sk-warn');
+    if (skWarn) { skWarn.style.display = 'none'; skWarn.textContent = ''; }
+    const aa = calcSkillRange(parseInt(document.getElementById('skillFromAA').value)||0, parseInt(document.getElementById('skillToAA').value)||0, '평타');
+    const e  = calcSkillRange(parseInt(document.getElementById('skillFromE').value)||0,  parseInt(document.getElementById('skillToE').value)||0,  'E');
+    const q  = calcSkillRange(parseInt(document.getElementById('skillFromQ').value)||0,  parseInt(document.getElementById('skillToQ').value)||0,  'Q');
+
+    const coin    = (aa.coin    + e.coin    + q.coin)    * count;
+    const grnDrop = (aa.grnDrop + e.grnDrop + q.grnDrop) * count;
+    const bluDrop = (aa.bluDrop + e.bluDrop + q.bluDrop) * count;
+    const purDrop = (aa.purDrop + e.purDrop + q.purDrop) * count;
+    const grnMat  = (aa.grnMat  + e.grnMat  + q.grnMat)  * count;
+    const bluMat  = (aa.bluMat  + e.bluMat  + q.bluMat)  * count;
+    const purMat  = (aa.purMat  + e.purMat  + q.purMat)  * count;
+    const boss    = (aa.boss    + e.boss    + q.boss)    * count;
+
+    document.getElementById('sk-coin').textContent     = fmt(coin);
+    document.getElementById('sk-grn-drop').textContent = fmt(grnDrop);
+    document.getElementById('sk-blu-drop').textContent = fmt(bluDrop);
+    document.getElementById('sk-pur-drop').textContent = fmt(purDrop);
+    document.getElementById('sk-grn-mat').textContent  = fmt(grnMat);
+    document.getElementById('sk-blu-mat').textContent  = fmt(bluMat);
+    document.getElementById('sk-pur-mat').textContent  = fmt(purMat);
+    document.getElementById('sk-boss').textContent     = fmt(boss);
+    document.getElementById('sk-total').textContent    = fmt(coin);
+  }
+
+  calcChar(); calcArc(); calcSkill();
 
   const XP_TABLE = {
     1:100,2:200,3:450,4:600,5:700,6:1150,7:1350,8:1450,9:1700,
@@ -1413,23 +2177,40 @@
     header.parentElement.classList.toggle('open');
   }
 
-  // [버그4 수정] 탭 그룹을 id prefix로 구분해서 다른 그룹 탭 건드리지 않도록
+  function toggleSub(header) {
+    header.parentElement.classList.toggle('open');
+  }
+
+  // 탭 그룹 정의: 각 그룹의 탭 id 목록
+  const STRAT_GROUPS = {
+    's1':     ['s1', 's2'],
+    's2':     ['s1', 's2'],
+    'cheese1':['cheese1', 'cheese2'],
+    'cheese2':['cheese1', 'cheese2'],
+    'cyc2a':  ['cyc2a', 'cyc2b'],
+    'cyc2b':  ['cyc2a', 'cyc2b'],
+  };
+
   function showStrat(id, btn) {
-    const parent = btn.closest('.card-body') || btn.closest('.section');
-    // id의 prefix(숫자/문자 제외 마지막 부분 이전)로 같은 그룹만 찾기
-    const prefix = id.replace(/[^a-z]/gi, '').replace(/\d+$/, '');
-    parent.querySelectorAll('.strat-content').forEach(c => {
-      if (c.id && c.id.replace(/[^a-z]/gi, '').replace(/\d+$/, '') === prefix) {
-        c.classList.remove('active');
-      }
+    const group = STRAT_GROUPS[id];
+    if (!group) return;
+
+    // 같은 그룹의 strat-content만 비활성화
+    group.forEach(gid => {
+      const el = document.getElementById('strat-' + gid);
+      if (el) el.classList.remove('active');
     });
-    parent.querySelectorAll('.strat-tab').forEach(b => {
-      // 같은 그룹의 탭만 비활성화: onclick 속성에서 id 확인
+
+    // 같은 그룹의 탭 버튼만 비활성화 (onclick 속성으로 식별)
+    const allTabs = document.querySelectorAll('.strat-tab');
+    allTabs.forEach(b => {
       const onclick = b.getAttribute('onclick') || '';
-      if (onclick.includes("'" + prefix) || onclick.includes('"' + prefix)) {
+      const match = onclick.match(/showStrat\('([^']+)'/);
+      if (match && group.includes(match[1])) {
         b.classList.remove('active');
       }
     });
+
     document.getElementById('strat-' + id).classList.add('active');
     btn.classList.add('active');
   }
