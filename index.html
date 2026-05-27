@@ -1145,6 +1145,9 @@
                   <span class="cycle-step" style="color:var(--text-dim);">가끔씩 구원 <b>QE</b>, 아무캐릭 <b>QE</b></span>
                 </div>
               </div>
+              <div class="cycle-notes">
+                <span class="cycle-note">아무캐릭 자리는 공석 가능</span>
+              </div>
             </div>
           </div>
           <div id="strat-cyc2b" class="strat-content">
@@ -1170,6 +1173,9 @@
                   <span class="cycle-arrow">+</span>
                   <span class="cycle-step" style="color:var(--text-dim);">가끔씩 구원 <b>QE</b>, 아무캐릭 <b>QE</b></span>
                 </div>
+              </div>
+              <div class="cycle-notes">
+                <span class="cycle-note">아무캐릭 자리는 공석 가능</span>
               </div>
             </div>
           </div>
@@ -1210,7 +1216,7 @@
         <div class="party-row">
           <span class="party-label">2파티</span>
           <div class="char-chips">
-            <span class="chip key">치즈</span><span class="chip">구원</span>
+            <span class="chip key">치즈</span><span class="chip">구원</span><span class="chip">민트 (선택)</span>
           </div>
         </div>
         <div style="margin:0.5rem 0; color:var(--text-dim); font-size:0.8rem;">또는</div>
@@ -1223,7 +1229,7 @@
         <div class="party-row">
           <span class="party-label">2파티</span>
           <div class="char-chips">
-            <span class="chip key">치즈</span><span class="chip">사키리</span>
+            <span class="chip key">치즈</span><span class="chip">사키리</span><span class="chip">민트 (선택)</span>
           </div>
         </div>
 
@@ -1514,7 +1520,7 @@
               </div>
             </div>
             <div style="margin:0.6rem 0 0.9rem;">
-              <label class="tog-label"><input type="checkbox" id="char-incl-bp" checked onchange="calcChar()"> 돌파 재료 포함</label>
+              <label class="tog-label"><input type="checkbox" id="char-incl-bp" checked onchange="calcChar()"> 돌파 재료 포함 <span id="char-bp-hint" style="color:var(--text-muted);font-size:0.68rem;margin-left:0.3rem;"></span></label>
             </div>
             <div class="calc-result" id="char-result">
               <div class="res-card">
@@ -1593,7 +1599,7 @@
               </div>
             </div>
             <div style="margin:0.6rem 0 0.9rem;">
-              <label class="tog-label"><input type="checkbox" id="arc-incl-bp" checked onchange="calcArc()"> 돌파 재료 포함</label>
+              <label class="tog-label"><input type="checkbox" id="arc-incl-bp" checked onchange="calcArc()"> 돌파 재료 포함 <span id="arc-bp-hint" style="color:var(--text-muted);font-size:0.68rem;margin-left:0.3rem;"></span></label>
             </div>
             <div class="calc-result" id="arc-result">
               <div class="res-card">
@@ -1778,7 +1784,7 @@
 
   <!-- 헌터 경험치 -->
   <div id="section-xp" class="section">
-    <div class="card open">
+    <div class="card">
       <div class="card-header" onclick="toggleCard(this)">
         <div class="card-title"><span>헌터 레벨별 경험치통</span><span class="badge">XP TABLE</span></div>
         <span class="card-arrow">▼</span>
@@ -2049,6 +2055,26 @@
     const el = document.getElementById(id);
     if (el) el.textContent = val;
   }
+  function setValMul(id, main, sub) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (sub) {
+      el.innerHTML = main + ' <span style="font-size:0.72em;color:var(--text-muted);font-weight:400;">' + sub + '</span>';
+    } else {
+      el.textContent = main;
+    }
+  }
+  function setChipMul(chipId, main, sub, isZero) {
+    const el = document.getElementById(chipId);
+    if (!el) return;
+    if (sub) {
+      el.innerHTML = main + ' <span style="font-size:0.72em;color:var(--text-muted);font-weight:400;">' + sub + '</span>';
+    } else {
+      el.textContent = main;
+    }
+    if (isZero) el.classList.add('zero');
+    else el.classList.remove('zero');
+  }
   function setZero(chipId, isZero) {
     const el = document.getElementById(chipId);
     if (!el) return;
@@ -2098,15 +2124,27 @@
     const crBpTrace = bpTrace * count;
     const crBpGrn = bpGrn * count, crBpBlu = bpBlu * count, crBpPur = bpPur * count;
 
-    setVal('cr-lv-coin', fmt(crLvCoin));
-    setChip('cr-lv-book-chip', fmt(crLvBook) + '권', crLvBook === 0);
+    const perCrLvCoin = lvCost.coin, perCrLvBook = lvCost.extra;
+    const perCrBpCoin = bpCoin, perCrBpTrace = bpTrace;
+    const perCrBpGrn = bpGrn, perCrBpBlu = bpBlu, perCrBpPur = bpPur;
+    const mul = count > 1;
+
+    setValMul('cr-lv-coin', fmt(crLvCoin), mul ? `(${fmt(perCrLvCoin)} × ${count})` : '');
+    setChipMul('cr-lv-book-chip', fmt(crLvBook)+'권', mul ? `(${fmt(perCrLvBook)} × ${count})` : '', crLvBook === 0);
     document.getElementById('cr-bp-wrap').style.display = inclBp ? '' : 'none';
-    setVal('cr-bp-coin', fmt(crBpCoin));
-    setChip('cr-bp-trace-chip', fmt(crBpTrace) + '개', crBpTrace === 0);
-    setVal('cr-bp-grn', fmt(crBpGrn)); setZero('cr-bp-grn-chip', crBpGrn === 0);
-    setVal('cr-bp-blu', fmt(crBpBlu)); setZero('cr-bp-blu-chip', crBpBlu === 0);
-    setVal('cr-bp-pur', fmt(crBpPur)); setZero('cr-bp-pur-chip', crBpPur === 0);
-    document.getElementById('cr-total').textContent = fmt((lvCost.coin + bpCoin) * count);
+    setValMul('cr-bp-coin', fmt(crBpCoin), mul ? `(${fmt(perCrBpCoin)} × ${count})` : '');
+    setChipMul('cr-bp-trace-chip', fmt(crBpTrace)+'개', mul ? `(${fmt(perCrBpTrace)} × ${count})` : '', crBpTrace === 0);
+    setValMul('cr-bp-grn', fmt(crBpGrn), mul ? `(${fmt(perCrBpGrn)}×${count})` : ''); setZero('cr-bp-grn-chip', crBpGrn === 0);
+    setValMul('cr-bp-blu', fmt(crBpBlu), mul ? `(${fmt(perCrBpBlu)}×${count})` : ''); setZero('cr-bp-blu-chip', crBpBlu === 0);
+    setValMul('cr-bp-pur', fmt(crBpPur), mul ? `(${fmt(perCrBpPur)}×${count})` : ''); setZero('cr-bp-pur-chip', crBpPur === 0);
+    setValMul('cr-total', fmt((lvCost.coin + bpCoin) * count), mul ? `(${fmt(lvCost.coin + bpCoin)} × ${count})` : '');
+
+    // 돌파 힌트 업데이트
+    const crHint = document.getElementById('char-bp-hint');
+    if (crHint) {
+      const bpLvs = [20,30,40,50,60,70].filter(lv => lv >= from && lv < to);
+      crHint.textContent = bpLvs.length ? `(${bpLvs.map(l=>l+'렙').join(', ')} 돌파 포함)` : '(해당 구간 돌파 없음)';
+    }
   }
 
   function calcArc() {
@@ -2146,17 +2184,24 @@
     const arCanGrn = bpCanGrn * count, arCanBlu = bpCanBlu * count, arCanPur = bpCanPur * count;
     const arGrn    = bpGrn    * count, arBlu    = bpBlu    * count, arPur    = bpPur    * count;
 
-    setVal('ar-lv-coin', fmt(arLvCoin));
-    setChip('ar-lv-mat-chip', fmt(arLvMat) + '개', arLvMat === 0);
+    const mul2 = count > 1;
+    setValMul('ar-lv-coin', fmt(arLvCoin), mul2 ? `(${fmt(lvCost.coin)} × ${count})` : '');
+    setChipMul('ar-lv-mat-chip', fmt(arLvMat)+'개', mul2 ? `(${fmt(lvCost.extra)} × ${count})` : '', arLvMat === 0);
     document.getElementById('ar-bp-wrap').style.display = inclBp ? '' : 'none';
-    setVal('ar-bp-coin', fmt(arBpCoin));
-    setVal('ar-bp-can-grn', fmt(arCanGrn)); setZero('ar-bp-can-grn-chip', arCanGrn === 0);
-    setVal('ar-bp-can-blu', fmt(arCanBlu)); setZero('ar-bp-can-blu-chip', arCanBlu === 0);
-    setVal('ar-bp-can-pur', fmt(arCanPur)); setZero('ar-bp-can-pur-chip', arCanPur === 0);
-    setVal('ar-bp-grn', fmt(arGrn)); setZero('ar-bp-grn-chip', arGrn === 0);
-    setVal('ar-bp-blu', fmt(arBlu)); setZero('ar-bp-blu-chip', arBlu === 0);
-    setVal('ar-bp-pur', fmt(arPur)); setZero('ar-bp-pur-chip', arPur === 0);
-    document.getElementById('ar-total').textContent = fmt((lvCost.coin + bpCoin) * count);
+    setValMul('ar-bp-coin', fmt(arBpCoin), mul2 ? `(${fmt(bpCoin)} × ${count})` : '');
+    setValMul('ar-bp-can-grn', fmt(arCanGrn), mul2 ? `(${fmt(bpCanGrn)}×${count})` : ''); setZero('ar-bp-can-grn-chip', arCanGrn === 0);
+    setValMul('ar-bp-can-blu', fmt(arCanBlu), mul2 ? `(${fmt(bpCanBlu)}×${count})` : ''); setZero('ar-bp-can-blu-chip', arCanBlu === 0);
+    setValMul('ar-bp-can-pur', fmt(arCanPur), mul2 ? `(${fmt(bpCanPur)}×${count})` : ''); setZero('ar-bp-can-pur-chip', arCanPur === 0);
+    setValMul('ar-bp-grn', fmt(arGrn), mul2 ? `(${fmt(bpGrn)}×${count})` : ''); setZero('ar-bp-grn-chip', arGrn === 0);
+    setValMul('ar-bp-blu', fmt(arBlu), mul2 ? `(${fmt(bpBlu)}×${count})` : ''); setZero('ar-bp-blu-chip', arBlu === 0);
+    setValMul('ar-bp-pur', fmt(arPur), mul2 ? `(${fmt(bpPur)}×${count})` : ''); setZero('ar-bp-pur-chip', arPur === 0);
+    setValMul('ar-total', fmt((lvCost.coin + bpCoin) * count), mul2 ? `(${fmt(lvCost.coin + bpCoin)} × ${count})` : '');
+
+    const arHint = document.getElementById('arc-bp-hint');
+    if (arHint) {
+      const bpLvs2 = [20,30,40,50,60,70].filter(lv => lv >= from && lv < to);
+      arHint.textContent = bpLvs2.length ? `(${bpLvs2.map(l=>l+'렙').join(', ')} 돌파 포함)` : '(해당 구간 돌파 없음)';
+    }
   }
 
   function calcSkillRange(from, to, label) {
@@ -2195,15 +2240,25 @@
     const purMat  = (aa.purMat  + e.purMat  + q.purMat)  * count;
     const boss    = (aa.boss    + e.boss    + q.boss)    * count;
 
-    setVal('sk-coin', fmt(coin));
-    setVal('sk-grn-drop', fmt(grnDrop)); setZero('sk-grn-drop-chip', grnDrop === 0);
-    setVal('sk-blu-drop', fmt(bluDrop)); setZero('sk-blu-drop-chip', bluDrop === 0);
-    setVal('sk-pur-drop', fmt(purDrop)); setZero('sk-pur-drop-chip', purDrop === 0);
-    setVal('sk-grn-mat', fmt(grnMat));   setZero('sk-grn-mat-chip', grnMat === 0);
-    setVal('sk-blu-mat', fmt(bluMat));   setZero('sk-blu-mat-chip', bluMat === 0);
-    setVal('sk-pur-mat', fmt(purMat));   setZero('sk-pur-mat-chip', purMat === 0);
-    setChip('sk-boss-chip', fmt(boss) + '개', boss === 0);
-    document.getElementById('sk-total').textContent = fmt(coin);
+    const perCoin    = (aa.coin    + e.coin    + q.coin);
+    const perGrnDrop = (aa.grnDrop + e.grnDrop + q.grnDrop);
+    const perBluDrop = (aa.bluDrop + e.bluDrop + q.bluDrop);
+    const perPurDrop = (aa.purDrop + e.purDrop + q.purDrop);
+    const perGrnMat  = (aa.grnMat  + e.grnMat  + q.grnMat);
+    const perBluMat  = (aa.bluMat  + e.bluMat  + q.bluMat);
+    const perPurMat  = (aa.purMat  + e.purMat  + q.purMat);
+    const perBoss    = (aa.boss    + e.boss    + q.boss);
+    const mul3 = count > 1;
+
+    setValMul('sk-coin', fmt(coin), mul3 ? `(${fmt(perCoin)} × ${count})` : '');
+    setValMul('sk-grn-drop', fmt(grnDrop), mul3 ? `(${fmt(perGrnDrop)}×${count})` : ''); setZero('sk-grn-drop-chip', grnDrop === 0);
+    setValMul('sk-blu-drop', fmt(bluDrop), mul3 ? `(${fmt(perBluDrop)}×${count})` : ''); setZero('sk-blu-drop-chip', bluDrop === 0);
+    setValMul('sk-pur-drop', fmt(purDrop), mul3 ? `(${fmt(perPurDrop)}×${count})` : ''); setZero('sk-pur-drop-chip', purDrop === 0);
+    setValMul('sk-grn-mat',  fmt(grnMat),  mul3 ? `(${fmt(perGrnMat)}×${count})`  : ''); setZero('sk-grn-mat-chip',  grnMat  === 0);
+    setValMul('sk-blu-mat',  fmt(bluMat),  mul3 ? `(${fmt(perBluMat)}×${count})`  : ''); setZero('sk-blu-mat-chip',  bluMat  === 0);
+    setValMul('sk-pur-mat',  fmt(purMat),  mul3 ? `(${fmt(perPurMat)}×${count})`  : ''); setZero('sk-pur-mat-chip',  purMat  === 0);
+    setChipMul('sk-boss-chip', fmt(boss)+'개', mul3 ? `(${fmt(perBoss)}×${count})` : '', boss === 0);
+    setValMul('sk-total', fmt(coin), mul3 ? `(${fmt(perCoin)} × ${count})` : '');
   }
 
   calcChar(); calcArc(); calcSkill();
