@@ -1079,119 +1079,217 @@
       </div>
       <div class="card-body">
 
-        <!-- 1파티 -->
-        <div class="party-section">
-          <div class="party-section-header">
-            <span class="party-section-num">1</span>
-            <div class="char-chips">
-              <span class="chip key">나나리</span><span class="chip">제로</span><span class="chip">사키리</span><span class="chip">하니엘</span>
+        <!-- 잡몹전 / 태초 탭 -->
+        <div class="strat-tabs" style="margin:0.75rem 0 0.6rem;">
+          <button class="strat-tab active" onclick="showStrat('mob', this)">잡몹전</button>
+          <button class="strat-tab" onclick="showStrat('boss', this)">태초 9·10층</button>
+        </div>
+
+        <!-- ── 잡몹전 ── -->
+        <div id="strat-mob" class="strat-content active">
+          <div class="party-section">
+            <div class="party-section-header">
+              <span class="party-section-num">1</span>
+              <div class="char-chips">
+                <span class="chip key">나나리</span><span class="chip">제로</span><span class="chip">사키리</span><span class="chip">하니엘</span>
+              </div>
+            </div>
+            <div class="cycle-block">
+              <div class="cycle-row">
+                <span class="cycle-tag loop">반복</span>
+                <div class="cycle-steps">
+                  <span class="cycle-step">사키리 <b>EQ</b></span>
+                  <span class="cycle-arrow">→</span>
+                  <span class="cycle-step">하니엘 <b>QE</b></span>
+                  <span class="cycle-arrow">→</span>
+                  <span class="cycle-step">제로 <b>QE</b></span>
+                  <span class="cycle-arrow">→</span>
+                  <span class="cycle-step">나나리 <b>EQ</b> 후 사키리 E쿨 돌때까지 평타</span>
+                </div>
+              </div>
+              <div class="cycle-notes">
+                <span class="cycle-note">나나리 EQ 전에 사키리 사이클게이지 확인 (헥스)</span>
+                <span class="cycle-note">하니엘·사키리·제로 쿨타임이 같음</span>
+              </div>
             </div>
           </div>
-          <div class="cycle-block">
-            <div class="cycle-row">
-              <span class="cycle-tag loop">일반</span>
-              <div class="cycle-steps">
-                <span class="cycle-step">사키리 <b>EQ</b></span>
-                <span class="cycle-arrow">→</span>
-                <span class="cycle-step">하니엘 <b>QE</b></span>
-                <span class="cycle-arrow">→</span>
-                <span class="cycle-step">제로 <b>QE</b></span>
-                <span class="cycle-arrow">→</span>
-                <span class="cycle-step">나나리 <b>EQ</b> 후 사키리 E쿨 돌때까지 평타</span>
+          <div class="party-divider"></div>
+          <div class="party-section">
+            <div class="party-section-header">
+              <span class="party-section-num">2</span>
+              <div class="char-chips">
+                <span class="chip key">호토리</span><span class="chip key">치즈</span><span class="chip">구원</span><span class="chip">+ 아무캐릭</span>
               </div>
             </div>
-            <div class="cycle-row">
-              <span class="cycle-tag init">보스</span>
-              <div class="cycle-steps">
-                <span class="cycle-step">사키리 <b>QE</b></span>
-                <span class="cycle-arrow">→</span>
-                <span class="cycle-step">하니엘 <b>QE</b></span>
-                <span class="cycle-arrow">→</span>
-                <span class="cycle-step">제로 <b>QE</b></span>
-                <span class="cycle-arrow">→</span>
-                <span class="cycle-step">나나리 <b>EQ</b> 후 사키리 E쿨 돌때까지 평타</span>
+            <div class="strat-tabs" style="margin:0.6rem 0 0;">
+              <button class="strat-tab active" onclick="showStrat('cyc2a', this)">호토리 전무 있음</button>
+              <button class="strat-tab" onclick="showStrat('cyc2b', this)">호토리 전무 없음</button>
+            </div>
+            <div id="strat-cyc2a" class="strat-content active">
+              <div class="cycle-block" style="margin-top:0.5rem;">
+                <div class="cycle-row">
+                  <span class="cycle-tag init">시작</span>
+                  <div class="cycle-steps">
+                    <span class="cycle-step">호토리 <b>E</b></span>
+                    <span class="cycle-arrow">→</span>
+                    <span class="cycle-step">구원 <b>QE</b></span>
+                    <span class="cycle-arrow">→</span>
+                    <span class="cycle-step">아무캐릭 <b>QE or QE or E</b></span>
+                    <span class="cycle-arrow">→</span>
+                    <span class="cycle-step">치즈 <b>EQE E…</b></span>
+                  </div>
+                </div>
+                <div class="cycle-row">
+                  <span class="cycle-tag loop">반복</span>
+                  <div class="cycle-steps">
+                    <span class="cycle-step">호토리 <b>Q</b></span>
+                    <span class="cycle-arrow">→</span>
+                    <span class="cycle-step">치즈로 딜</span>
+                    <span class="cycle-arrow">+</span>
+                    <span class="cycle-step" style="color:var(--text-dim);">가끔씩 구원 <b>QE</b>, 아무캐릭 할 일</span>
+                  </div>
+                </div>
+                <div class="cycle-notes">
+                  <span class="cycle-note">아무캐릭 자리는 공석 가능</span>
+                </div>
               </div>
             </div>
-            <div class="cycle-notes">
-              <span class="cycle-note">나나리 EQ 전에 사키리 사이클게이지 확인 (헥스)</span>
-              <span class="cycle-note">하니엘·사키리·제로 쿨타임이 같음</span>
+            <div id="strat-cyc2b" class="strat-content">
+              <div class="cycle-block" style="margin-top:0.5rem;">
+                <div class="cycle-row">
+                  <span class="cycle-tag init">시작</span>
+                  <div class="cycle-steps">
+                    <span class="cycle-step">구원 <b>QE</b></span>
+                    <span class="cycle-arrow">→</span>
+                    <span class="cycle-step">호토리 <b>Q</b></span>
+                    <span class="cycle-arrow">→</span>
+                    <span class="cycle-step">아무캐릭 <b>QE or QE or E</b></span>
+                    <span class="cycle-arrow">→</span>
+                    <span class="cycle-step">치즈 <b>QE E E…</b></span>
+                  </div>
+                </div>
+                <div class="cycle-row">
+                  <span class="cycle-tag loop">반복</span>
+                  <div class="cycle-steps">
+                    <span class="cycle-step">호토리 <b>Q</b></span>
+                    <span class="cycle-arrow">→</span>
+                    <span class="cycle-step">치즈로 딜</span>
+                    <span class="cycle-arrow">+</span>
+                    <span class="cycle-step" style="color:var(--text-dim);">가끔씩 구원 <b>QE</b>, 아무캐릭 할 일</span>
+                  </div>
+                </div>
+                <div class="cycle-notes">
+                  <span class="cycle-note">아무캐릭 자리는 공석 가능</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="party-divider"></div>
-
-        <!-- 2파티 -->
-        <div class="party-section">
-          <div class="party-section-header">
-            <span class="party-section-num">2</span>
-            <div class="char-chips">
-              <span class="chip key">호토리</span><span class="chip key">치즈</span><span class="chip">구원</span><span class="chip">+ 아무캐릭</span>
-            </div>
+        <div id="strat-boss" class="strat-content">
+          <div class="cycle-notes" style="margin-bottom:0.6rem;">
+            <span class="cycle-note">9층: 나나리팀 전반, 호토리팀 후반</span>
+            <span class="cycle-note">10층: 호토리팀 전반, 나나리팀 후반</span>
           </div>
-          <div class="strat-tabs" style="margin:0.6rem 0 0;">
-            <button class="strat-tab active" onclick="showStrat('cyc2a', this)">호토리 전무 있음</button>
-            <button class="strat-tab" onclick="showStrat('cyc2b', this)">호토리 전무 없음</button>
-          </div>
-          <div id="strat-cyc2a" class="strat-content active">
-            <div class="cycle-block" style="margin-top:0.5rem;">
-              <div class="cycle-row">
-                <span class="cycle-tag init">시작</span>
-                <div class="cycle-steps">
-                  <span class="cycle-step">호토리 <b>E</b></span>
-                  <span class="cycle-arrow">→</span>
-                  <span class="cycle-step">구원 <b>QE</b></span>
-                  <span class="cycle-arrow">→</span>
-                  <span class="cycle-step">아무캐릭 <b>QE or QE or E</b></span>
-                  <span class="cycle-arrow">→</span>
-                  <span class="cycle-step">치즈 <b>EQE E…</b></span>
-                </div>
+          <div class="party-section">
+            <div class="party-section-header">
+              <span class="party-section-num">A</span>
+              <div class="char-chips">
+                <span class="chip key">나나리</span><span class="chip">제로</span><span class="chip">사키리</span><span class="chip">구원</span>
               </div>
+            </div>
+            <div class="cycle-block">
               <div class="cycle-row">
                 <span class="cycle-tag loop">반복</span>
                 <div class="cycle-steps">
-                  <span class="cycle-step">호토리 <b>Q</b></span>
+                  <span class="cycle-step">사키리 <b>QE</b></span>
                   <span class="cycle-arrow">→</span>
-                  <span class="cycle-step">치즈로 딜</span>
-                  <span class="cycle-arrow">+</span>
-                  <span class="cycle-step" style="color:var(--text-dim);">가끔씩 구원 <b>QE</b>, 아무캐릭 <b>QE</b></span>
+                  <span class="cycle-step">구원 <b>EQ</b></span>
+                  <span class="cycle-arrow">→</span>
+                  <span class="cycle-step">제로 <b>QE</b></span>
+                  <span class="cycle-arrow">→</span>
+                  <span class="cycle-step">나나리 <b>EQR</b></span>
                 </div>
-              </div>
-              <div class="cycle-notes">
-                <span class="cycle-note">아무캐릭 자리는 공석 가능</span>
               </div>
             </div>
           </div>
-          <div id="strat-cyc2b" class="strat-content">
-            <div class="cycle-block" style="margin-top:0.5rem;">
-              <div class="cycle-row">
-                <span class="cycle-tag init">시작</span>
-                <div class="cycle-steps">
-                  <span class="cycle-step">구원 <b>QE</b></span>
-                  <span class="cycle-arrow">→</span>
-                  <span class="cycle-step">호토리 <b>Q</b></span>
-                  <span class="cycle-arrow">→</span>
-                  <span class="cycle-step">아무캐릭 <b>QE or QE or E</b></span>
-                  <span class="cycle-arrow">→</span>
-                  <span class="cycle-step">치즈 <b>QE E E…</b></span>
+          <div class="party-divider"></div>
+          <div class="party-section">
+            <div class="party-section-header">
+              <span class="party-section-num">B</span>
+              <div class="char-chips">
+                <span class="chip key">호토리</span><span class="chip key">치즈</span><span class="chip">하니엘</span><span class="chip">+ 아무캐릭</span>
+              </div>
+            </div>
+            <div class="strat-tabs" style="margin:0.6rem 0 0;">
+              <button class="strat-tab active" onclick="showStrat('b9cyc2a', this)">호토리 전무 있음</button>
+              <button class="strat-tab" onclick="showStrat('b9cyc2b', this)">호토리 전무 없음</button>
+            </div>
+            <div id="strat-b9cyc2a" class="strat-content active">
+              <div class="cycle-block" style="margin-top:0.5rem;">
+                <div class="cycle-row">
+                  <span class="cycle-tag init">시작</span>
+                  <div class="cycle-steps">
+                    <span class="cycle-step">호토리 <b>E</b></span>
+                    <span class="cycle-arrow">→</span>
+                    <span class="cycle-step">하니엘 <b>E</b></span>
+                    <span class="cycle-arrow">→</span>
+                    <span class="cycle-step">아무캐릭 <b>QE or EQ or E</b></span>
+                    <span class="cycle-arrow">→</span>
+                    <span class="cycle-step">치즈 <b>QEEE…</b></span>
+                    <span class="cycle-arrow">→</span>
+                    <span class="cycle-step">하니엘 <b>QE</b></span>
+                    <span class="cycle-arrow">→</span>
+                    <span class="cycle-step">호토리 <b>Q</b></span>
+                  </div>
+                </div>
+                <div class="cycle-row">
+                  <span class="cycle-tag loop">반복</span>
+                  <div class="cycle-steps">
+                    <span class="cycle-step">치즈로 딜</span>
+                    <span class="cycle-arrow">+</span>
+                    <span class="cycle-step" style="color:var(--text-dim);">가끔씩 두 캐릭 나와서 딜</span>
+                    <span class="cycle-arrow">→</span>
+                    <span class="cycle-step">호토리 <b>Q</b></span>
+                  </div>
+                </div>
+                <div class="cycle-notes">
+                  <span class="cycle-note">아무캐릭 자리는 공석 가능</span>
                 </div>
               </div>
-              <div class="cycle-row">
-                <span class="cycle-tag loop">반복</span>
-                <div class="cycle-steps">
-                  <span class="cycle-step">호토리 <b>Q</b></span>
-                  <span class="cycle-arrow">→</span>
-                  <span class="cycle-step">치즈로 딜</span>
-                  <span class="cycle-arrow">+</span>
-                  <span class="cycle-step" style="color:var(--text-dim);">가끔씩 구원 <b>QE</b>, 아무캐릭 <b>QE</b></span>
+            </div>
+            <div id="strat-b9cyc2b" class="strat-content">
+              <div class="cycle-block" style="margin-top:0.5rem;">
+                <div class="cycle-row">
+                  <span class="cycle-tag init">시작</span>
+                  <div class="cycle-steps">
+                    <span class="cycle-step">하니엘 <b>QE</b></span>
+                    <span class="cycle-arrow">→</span>
+                    <span class="cycle-step">호토리 <b>Q</b></span>
+                    <span class="cycle-arrow">→</span>
+                    <span class="cycle-step">아무캐릭 <b>QE or EQ or E</b></span>
+                    <span class="cycle-arrow">→</span>
+                    <span class="cycle-step">치즈 <b>QEEE…</b></span>
+                  </div>
                 </div>
-              </div>
-              <div class="cycle-notes">
-                <span class="cycle-note">아무캐릭 자리는 공석 가능</span>
+                <div class="cycle-row">
+                  <span class="cycle-tag loop">반복</span>
+                  <div class="cycle-steps">
+                    <span class="cycle-step">호토리 <b>Q</b></span>
+                    <span class="cycle-arrow">→</span>
+                    <span class="cycle-step">치즈로 딜</span>
+                    <span class="cycle-arrow">+</span>
+                    <span class="cycle-step" style="color:var(--text-dim);">가끔씩 두 캐릭 나와서 딜</span>
+                  </div>
+                </div>
+                <div class="cycle-notes">
+                  <span class="cycle-note">아무캐릭 자리는 공석 가능</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
+
 
       </div>
     </div>
@@ -1777,6 +1875,7 @@
             <ul class="phase-list">
               <li>붕어빵 최대한 몰아놓고 딜</li>
               <li>회오리 때 회피반격</li>
+              <li><b>블랙홀</b> 버프 사용</li>
             </ul>
           </div>
           <div class="phase-block">
@@ -1786,7 +1885,6 @@
             </div>
             <ul class="phase-list">
               <li><b>갸루보스만</b> 집중 공격 → 쫄몹은 알아서 사망</li>
-              <li>갸루보스 HP <b>140만</b> → 모든 적 체력 10% 감소 룬 유효</li>
             </ul>
           </div>
         </div>
@@ -2416,12 +2514,16 @@
 
   // 탭 그룹 정의: 각 그룹의 탭 id 목록
   const STRAT_GROUPS = {
-    's1':     ['s1', 's2'],
-    's2':     ['s1', 's2'],
-    'cheese1':['cheese1', 'cheese2'],
-    'cheese2':['cheese1', 'cheese2'],
-    'cyc2a':  ['cyc2a', 'cyc2b'],
-    'cyc2b':  ['cyc2a', 'cyc2b'],
+    's1':      ['s1', 's2'],
+    's2':      ['s1', 's2'],
+    'cheese1': ['cheese1', 'cheese2'],
+    'cheese2': ['cheese1', 'cheese2'],
+    'cyc2a':   ['cyc2a', 'cyc2b'],
+    'cyc2b':   ['cyc2a', 'cyc2b'],
+    'mob':    ['mob', 'boss'],
+    'boss':   ['mob', 'boss'],
+    'b9cyc2a': ['b9cyc2a', 'b9cyc2b'],
+    'b9cyc2b': ['b9cyc2a', 'b9cyc2b'],
   };
 
   function showStrat(id, btn) {
